@@ -5,169 +5,388 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>nicoburgueno · Desarrollo web</title>
 <meta name="description" content="Páginas web para clínicas dentales, restaurantes y negocios locales en CDMX, con citas y reservaciones por WhatsApp.">
+<meta name="theme-color" content="#0a0a0a">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/logo/favicon-180.png">
+<meta property="og:title" content="nicoburgueno · Desarrollo web">
+<meta property="og:description" content="Páginas web que llenan tu agenda. Clínicas dentales, restaurantes y negocios locales en CDMX.">
 <meta property="og:image" content="https://nicoburgueno.github.io/Proyecto-Pagina-Web/assets/logo/nicoburgueno-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
-/* Layout: portafolio de un estudio pequeño. Hero corto, tres demos como "fichas de trabajo", qué incluye, proceso, contacto */
+/* Concepto: estudio nocturno. Tipografía gigante que mezcla Geist con Instrument Serif en cursiva,
+   grano y brillos suaves, trabajos dentro de celulares, tarjetas bento. Rojo solo en el cursor del logo. */
 :root {
-  --bg: #f4f4f0;
-  --surface: #ffffff;
-  --ink: #18181b;
-  --muted: #62626b;
-  --line: #dcdcd4;
-  --accent: #d61f26;
-  --accent-ink: #ffffff;
-  --pixel: rgba(229, 36, 43, .28);
-  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #111114; --surface: #1a1a1f; --ink: #ececef; --muted: #a1a1aa; --line: #2b2b33; --accent: #ff5a5f; --accent-ink: #1a0405; color-scheme: dark; }
+  --bg: #0a0a0a;
+  --surface: #121212;
+  --surface-2: #181818;
+  --line: #242424;
+  --ink: #f1efe9;
+  --muted: #8d8b85;
+  --dim: #5c5b57;
+  --signal: #e5242b;
+  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
-.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { max-width: 100%; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+::selection { background: var(--ink); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; }
+.mono { font-family: var(--mono); }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 
-header .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; gap: 16px; }
-header { background: #0b0b0b; }
-.logo { display: block; text-decoration: none; }
-.logo svg { display: block; height: 52px; width: auto; }
-header .btn.ghost { color: #ffffff; box-shadow: inset 0 0 0 1.5px #3a3a3a; }
+/* Grano */
+body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite; }
+@keyframes grain { 0% { transform: translate(0, 0) } 20% { transform: translate(-3%, 2%) } 40% { transform: translate(2%, -3%) } 60% { transform: translate(-2%, -1%) } 80% { transform: translate(3%, 3%) } 100% { transform: translate(0, 0) } }
+
+/* Navegación flotante */
+.nav { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 16px; border-radius: 999px; background: rgba(18, 18, 18, .72); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); width: max-content; max-width: calc(100% - 24px); }
+.nav .logo { display: block; text-decoration: none; margin-right: 10px; }
+.nav .logo svg { display: block; height: 22px; width: auto; }
+.nav a.link { font-size: 14px; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; transition: color .2s, background .2s; }
+.nav a.link:hover { color: var(--ink); background: var(--surface-2); }
+.nav .cta { font-size: 14px; font-weight: 500; text-decoration: none; padding: 9px 16px; border-radius: 999px; background: var(--ink); color: var(--bg); transition: transform .2s var(--ease); }
+.nav .cta:hover { transform: scale(1.04); }
 @keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
-.cursor { animation: blink 1.1s steps(1) infinite }
-@media (prefers-reduced-motion: reduce) { .cursor { animation: none } }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; background: var(--accent); color: var(--accent-ink); }
-.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.cursor { animation: blink 1.1s steps(1) infinite; }
 
-.hero .wrap { padding-block: 56px 72px; }
-.hero h1 { font-size: clamp(44px, 7.5vw, 92px); font-weight: 800; max-width: 14ch; }
-.hero h1 span { background: linear-gradient(transparent 62%, var(--pixel) 62% 92%, transparent 92%); }
-.hero p { font-size: 20px; color: var(--muted); max-width: 48ch; margin: 22px 0 30px; }
-.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+/* Hero */
+.hero { position: relative; min-height: 92vh; display: flex; align-items: center; padding-block: 140px 80px; overflow: hidden; }
+.glow { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+.glow.a { width: 520px; height: 520px; top: -120px; right: -120px; background: radial-gradient(circle, rgba(241, 239, 233, .14), transparent 70%); }
+.glow.b { width: 420px; height: 420px; bottom: -160px; left: -100px; background: radial-gradient(circle, rgba(140, 150, 170, .14), transparent 70%); }
+.spot { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(600px circle at var(--mx, 70%) var(--my, 30%), rgba(255, 255, 255, .06), transparent 60%); }
+.hero .wrap { position: relative; width: 100%; }
+.avail { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); background: rgba(18, 18, 18, .6); }
+.avail i { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 4px rgba(74, 222, 128, .15); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(74, 222, 128, 0) } }
+h1 { font-weight: 500; font-size: clamp(48px, 10vw, 148px); line-height: .92; letter-spacing: -.055em; margin: 28px 0 0; text-wrap: balance; }
+h1 .serif { font-size: 1.08em; letter-spacing: -.03em; }
+h1 .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+h1 .w > span { display: inline-block; }
+.js h1 .w > span { transform: translateY(105%); animation: rise 1s var(--ease) forwards; }
+@keyframes rise { to { transform: translateY(0) } }
+.hero-foot { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+.hero-foot p { max-width: 42ch; color: var(--muted); font-size: 18px; margin: 0; }
+.btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; font-weight: 500; font-size: 15px; text-decoration: none; transition: transform .25s var(--ease), background .25s; }
+.btn.solid { background: var(--ink); color: var(--bg); }
+.btn.ghost { border: 1px solid var(--line); color: var(--ink); }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn:hover { transform: translateY(-2px); }
+.btn .arr { transition: transform .25s var(--ease); }
+.btn:hover .arr { transform: translateX(4px); }
 
-section { padding-block: 72px; border-top: 1px solid var(--line); }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
-h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 800; margin-bottom: 32px; }
+/* Cinta */
+.marquee { border-block: 1px solid var(--line); overflow: hidden; padding-block: 22px; }
+.track { display: flex; gap: 48px; width: max-content; animation: slide 32s linear infinite; }
+.track span { font-size: clamp(28px, 4vw, 52px); letter-spacing: -.04em; white-space: nowrap; display: flex; align-items: center; gap: 48px; color: var(--dim); }
+.track span b { color: var(--ink); font-weight: 400; }
+.track span::after { content: "✳"; font-size: .5em; color: var(--muted); }
+@keyframes slide { to { transform: translateX(-50%) } }
 
-.demos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.demo { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
-.demo:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -28px rgba(0,0,0,.45); }
-.shot { aspect-ratio: 4 / 3; max-width: 100%; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-.shot .bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.25); }
-.shot .t { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1; margin-top: auto; }
-.shot .k { display: flex; gap: 6px; }
-.shot .k span { height: 26px; flex: 1; border-radius: 6px; background: rgba(255,255,255,.18); }
-.shot .k span:first-child { background: rgba(255,255,255,.9); }
-.demo .body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.demo h3 { font-size: 22px; }
-.demo p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
-.demo .go { font-weight: 600; color: var(--accent); font-size: 15px; }
+section { padding-block: 120px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 56px; flex-wrap: wrap; }
+h2 { font-weight: 500; font-size: clamp(40px, 6.4vw, 88px); line-height: .95; letter-spacing: -.05em; margin: 12px 0 0; text-wrap: balance; }
+.sec-head p { max-width: 36ch; color: var(--muted); margin: 0; }
 
-.incl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; }
-.incl div { border-top: 2px solid var(--ink); padding-top: 14px; }
-.incl h3 { font-size: 20px; margin-bottom: 6px; }
-.incl p { margin: 0; color: var(--muted); }
+/* Trabajos en celulares */
+.work { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.case { text-decoration: none; display: flex; flex-direction: column; gap: 18px; }
+.stage { position: relative; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); aspect-ratio: 4 / 5; max-width: 100%; display: grid; place-items: center; overflow: hidden; transition: border-color .3s; }
+.stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, var(--tint, rgba(255, 255, 255, .08)), transparent 65%); }
+.case:hover .stage { border-color: #3a3a3a; }
+.phone { position: relative; width: 58%; aspect-ratio: 390 / 820; border-radius: 30px; background: #000; padding: 7px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), 0 0 0 1px #2c2c2c; transition: transform .6s var(--ease); }
+.case:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: #111; }
+.screen iframe { position: absolute; top: 0; left: 0; width: 390px; height: 820px; border: 0; transform-origin: 0 0; pointer-events: none; }
+.notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 30%; height: 14px; border-radius: 999px; background: #000; z-index: 2; }
+.case-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.case-meta h3 { margin: 0; font-weight: 500; font-size: 22px; letter-spacing: -.03em; }
+.case-meta span { color: var(--muted); font-size: 14px; }
 
-.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: s; }
-.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
-.steps li::before { content: "Paso " counter(s); display: block; font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; }
-.steps b { display: block; font-size: 18px; margin-bottom: 4px; }
-.steps span { color: var(--muted); }
+/* Bento */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 10px; min-width: 0; position: relative; overflow: hidden; }
+.tile h3 { margin: 0; font-weight: 500; font-size: 24px; letter-spacing: -.03em; line-height: 1.1; }
+.tile p { margin: 0; color: var(--muted); }
+.t1 { grid-column: span 4; min-height: 300px; justify-content: space-between; }
+.t2 { grid-column: span 2; }
+.t3, .t4, .t5 { grid-column: span 2; }
+.t1 h3 { font-size: clamp(30px, 3.6vw, 46px); max-width: 16ch; }
+.chat { display: flex; flex-direction: column; gap: 8px; max-width: 340px; margin-left: auto; width: 100%; }
+.bubble { padding: 10px 14px; border-radius: 18px; font-size: 14px; max-width: 85%; }
+.bubble.in { background: var(--surface-2); border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 6px; }
+.bubble.out { background: var(--ink); color: var(--bg); align-self: flex-end; border-bottom-right-radius: 6px; }
+.bubble small { display: block; font-family: var(--mono); font-size: 10px; opacity: .55; margin-top: 2px; }
+.big-num { font-size: 72px; font-weight: 500; letter-spacing: -.06em; line-height: 1; }
+.big-num .serif { font-size: .9em; }
+.pins { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.pins span { font-family: var(--mono); font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.stars { font-size: 22px; letter-spacing: 4px; color: var(--ink); }
 
-.contact { background: var(--ink); color: var(--bg); border-top: 0; }
-.contact .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-.contact h2 { margin: 0; color: var(--bg); }
-.contact p { margin: 8px 0 0; opacity: .75; }
-.contact .num { font-family: var(--mono); font-size: 22px; }
-footer { color: var(--muted); font-size: 13px; }
-footer .wrap { padding-block: 24px; }
+/* Proceso */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.step { padding: 32px 28px 32px 0; border-right: 1px solid var(--line); }
+.step + .step { padding-left: 28px; }
+.step:last-child { border-right: 0; }
+.step .n { font-family: var(--serif); font-style: italic; font-size: 64px; line-height: 1; color: var(--dim); }
+.step h3 { font-weight: 500; font-size: 22px; letter-spacing: -.03em; margin: 18px 0 8px; }
+.step p { color: var(--muted); margin: 0; }
 
-@media (max-width: 860px) {
-  .demos, .incl, .steps { grid-template-columns: 1fr; }
+/* Precios */
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.plan { border: 1px solid var(--line); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; gap: 14px; background: var(--surface); }
+.plan.hl { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.plan.hl .label, .plan.hl li { color: #55534e; }
+.plan .price { font-size: 48px; font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+.plan .price small { font-size: 15px; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+.plan.hl .price small { color: #55534e; }
+.plan ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--muted); font-size: 15px; }
+.plan li::before { content: "→ "; font-family: var(--mono); }
+
+/* Cierre */
+.closing { text-align: center; padding-block: 160px 120px; position: relative; overflow: hidden; }
+.closing h2 { font-size: clamp(56px, 12vw, 180px); line-height: .9; }
+.closing p { color: var(--muted); max-width: 40ch; margin: 28px auto 36px; font-size: 18px; }
+.phone-num { font-family: var(--mono); font-size: 15px; color: var(--muted); margin-top: 22px; }
+footer { border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 14px; }
+footer svg { height: 20px; width: auto; display: block; }
+
+/* Aparición al hacer scroll (solo con JS; sin JS todo se ve) */
+.js .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 960px) {
+  .work, .plans { grid-template-columns: 1fr; max-width: 520px; }
+  .bento { grid-template-columns: 1fr 1fr; }
+  .t1 { grid-column: span 2; }
+  .t2, .t3, .t4, .t5 { grid-column: span 1; }
+  .steps { grid-template-columns: 1fr; }
+  .step, .step + .step { padding: 28px 0; border-right: 0; border-bottom: 1px solid var(--line); }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 640px) {
+  .nav a.link { display: none; }
+  .bento { grid-template-columns: 1fr; }
+  .t1, .t2, .t3, .t4, .t5 { grid-column: span 1; }
+  section { padding-block: 84px; }
+  .hero { padding-block: 120px 64px; }
+  .hero-foot p { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js h1 .w > span { transform: none; }
+  .js .reveal { opacity: 1; transform: none; }
+}
 </style>
 </head>
 <body>
-<header>
+<script>document.documentElement.classList.add("js")</script>
+
+<nav class="nav" aria-label="Principal">
+  <a class="logo" href="#inicio" aria-label="nicoburgueno, inicio">
+    <svg viewBox="6 32 276 56" role="img" aria-label="nicoburgueno"><text x="14" y="72" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" font-size="34" fill="#f1efe9" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect class="cursor" x="76" y="47" width="14" height="30" fill="#e5242b"/><rect x="106" y="38" width="1" height="44" fill="#3a3a3a"/><text x="122" y="62" font-family="'Geist Mono', ui-monospace, monospace" font-size="22" fill="#f1efe9" letter-spacing="-0.4"><tspan fill="#8a8880" font-weight="400">nico</tspan><tspan font-weight="600">burgueno</tspan></text><text x="123" y="80" font-family="'Geist Mono', ui-monospace, monospace" font-size="9" fill="#6b6a64" letter-spacing="1.6">desarrollo web · cdmx</text></svg>
+  </a>
+  <a class="link" href="#trabajos">Trabajos</a>
+  <a class="link" href="#servicios">Servicios</a>
+  <a class="link" href="#precios">Precios</a>
+  <a class="cta" href="#contacto">Hablemos</a>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="glow a"></div><div class="glow b"></div><div class="spot" id="spot"></div>
   <div class="wrap">
-    <a class="logo" href="#" aria-label="nicoburgueno, inicio"><svg viewBox="0 0 290 120" role="img" aria-label="nicoburgueno, desarrollo web"><rect width="290" height="120" fill="#0b0b0b"/><text x="14" y="72" font-family="'Geist Mono', ui-monospace, Consolas, monospace" font-weight="500" font-size="34" fill="#ffffff" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect class="cursor" x="76" y="47" width="14" height="30" fill="#e5242b"/><rect x="106" y="38" width="1" height="44" fill="#3a3a3a"/><text x="122" y="62" font-family="'Geist Mono', ui-monospace, Consolas, monospace" font-size="22" fill="#ffffff" letter-spacing="-0.4"><tspan fill="#8a8880" font-weight="400">nico</tspan><tspan font-weight="600">burgueno</tspan></text><text x="123" y="80" font-family="'Geist Mono', ui-monospace, Consolas, monospace" font-size="9" fill="#6b6a64" letter-spacing="1.6">desarrollo web · cdmx</text></svg></a>
-    <a class="btn ghost" href="#contacto">Contacto</a>
+    <span class="avail"><i></i>Agenda abierta · noviembre 2026</span>
+    <h1 id="headline">Páginas web que <span class="serif">llenan</span> tu agenda.</h1>
+    <div class="hero-foot">
+      <p>Diseño y desarrollo sitios para clínicas dentales, restaurantes y negocios locales en la Ciudad de México. Tus clientes te encuentran en Google y agendan por WhatsApp en segundos.</p>
+      <div class="btns">
+        <a class="btn solid" href="#trabajos">Ver trabajos <span class="arr">→</span></a>
+        <a class="btn ghost" href="#contacto">Pedir cotización</a>
+      </div>
+    </div>
   </div>
 </header>
 
-<div class="hero">
-  <div class="wrap">
-    <h1>Páginas web que <span>llenan tu agenda</span>.</h1>
-    <p>Diseño y desarrollo web para clínicas dentales, restaurantes y negocios locales en la Ciudad de México. Tus clientes te encuentran en Google y agendan por WhatsApp en segundos.</p>
-    <div class="cta">
-      <a class="btn" href="#demos">Ver ejemplos</a>
-      <a class="btn ghost" href="#contacto">Pedir cotización</a>
-    </div>
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span><b>Diseño</b></span><span class="serif">a la medida</span><span><b>Citas por WhatsApp</b></span><span class="serif">Google Maps</span><span><b>Hecho en CDMX</b></span><span class="serif">listo en 7 días</span>
+    <span><b>Diseño</b></span><span class="serif">a la medida</span><span><b>Citas por WhatsApp</b></span><span class="serif">Google Maps</span><span><b>Hecho en CDMX</b></span><span class="serif">listo en 7 días</span>
   </div>
 </div>
 
-<section id="demos">
+<section id="trabajos">
   <div class="wrap">
-    <p class="eyebrow">Ejemplos en vivo</p>
-    <h2>Pruébalas desde tu celular</h2>
-    <div class="demos">
-      <a class="demo" href="demos/dental/">
-        <div class="shot" style="background:linear-gradient(140deg,#127c6e,#0f2a2c);color:#eaf4f1"><span class="bar" style="width:40%"></span><span class="t">Sonríe sin miedo.</span><div class="k"><span></span><span></span><span></span></div></div>
-        <div class="body"><h3>Clínica dental</h3><p>Agenda con horarios libres, precios por tratamiento, promoción con cuenta regresiva y guía de blanqueamiento.</p><span class="go">Abrir demo →</span></div>
+    <div class="sec-head reveal">
+      <div><span class="label">Trabajos · 03</span><h2>Ejemplos <span class="serif">en vivo</span></h2></div>
+      <p>Son páginas reales que puedes usar. Ábrelas en tu celular, agenda una cita o reserva una mesa.</p>
+    </div>
+    <div class="work">
+      <a class="case reveal" href="demos/dental/" style="--tint: rgba(60, 194, 173, .28)">
+        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/dental/" title="Vista previa: clínica dental" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        <div class="case-meta"><h3>Clínica dental</h3><span>Agenda en línea</span></div>
       </a>
-      <a class="demo" href="demos/restaurante/">
-        <div class="shot" style="background:linear-gradient(140deg,#1a2c24,#12201a);color:#f4ecdd"><span class="bar" style="width:55%;background:#f0a830"></span><span class="t">Cocina de mercado.</span><div class="k"><span></span><span></span><span></span></div></div>
-        <div class="body"><h3>Restaurante</h3><p>Menú del día que cambia solo, carta por pestañas, reservaciones por WhatsApp y "Abierto ahora" en vivo.</p><span class="go">Abrir demo →</span></div>
+      <a class="case reveal" href="demos/restaurante/" style="--tint: rgba(240, 168, 48, .26)">
+        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/restaurante/" title="Vista previa: restaurante" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        <div class="case-meta"><h3>Restaurante</h3><span>Menú del día y reservas</span></div>
       </a>
-      <a class="demo" href="demos/taller/">
-        <div class="shot" style="background:linear-gradient(140deg,#263340,#16191d);color:#f3f4f1"><span class="bar" style="width:35%;background:#f2b705"></span><span class="t">Bien hecho a la primera.</span><div class="k"><span></span><span></span><span></span></div></div>
-        <div class="body"><h3>Taller mecánico</h3><p>Lista de servicios con precios e intervalos en km, y calendario de verificación por color de engomado.</p><span class="go">Abrir demo →</span></div>
+      <a class="case reveal" href="demos/taller/" style="--tint: rgba(242, 183, 5, .2)">
+        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/taller/" title="Vista previa: taller mecánico" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        <div class="case-meta"><h3>Taller mecánico</h3><span>Servicios y verificación</span></div>
       </a>
     </div>
   </div>
 </section>
 
-<section>
+<section id="servicios" style="padding-top:0">
   <div class="wrap">
-    <p class="eyebrow">Qué incluye</p>
-    <h2>Todo lo que tu negocio necesita en línea</h2>
-    <div class="incl">
-      <div><h3>Diseño para celular</h3><p>Casi todos tus clientes te buscan desde el teléfono. Tu página se ve perfecta ahí primero.</p></div>
-      <div><h3>Citas por WhatsApp</h3><p>El cliente elige día y hora, y el mensaje te llega ya armado. Sin apps ni comisiones.</p></div>
-      <div><h3>Google Maps</h3><p>Arreglamos tu ficha de Google con fotos, horarios y servicios para que aparezcas primero.</p></div>
-      <div><h3>Tu propio dominio</h3><p>Una dirección como tunegocio.com.mx que da confianza y es tuya.</p></div>
-      <div><h3>Cambios cuando quieras</h3><p>¿Subiste precios o tienes promoción nueva? La actualizamos por ti cada mes.</p></div>
-      <div><h3>Lista en una semana</h3><p>De la primera plática a tu página publicada en 5 a 7 días.</p></div>
+    <div class="sec-head reveal">
+      <div><span class="label">Servicios</span><h2>Todo lo que tu negocio <span class="serif">necesita</span></h2></div>
+    </div>
+    <div class="bento">
+      <article class="tile t1 reveal">
+        <span class="label">Citas por WhatsApp</span>
+        <div style="display:flex;gap:24px;align-items:end;flex-wrap:wrap;justify-content:space-between">
+          <h3>Tu cliente elige día y hora. El mensaje te llega <span class="serif">listo</span>.</h3>
+          <div class="chat" aria-hidden="true">
+            <div class="bubble out">Hola, quiero agendar limpieza el martes 28 a las 11:30<small>10:42</small></div>
+            <div class="bubble in">¡Claro! Te esperamos el martes. ¿A nombre de quién?<small>10:43</small></div>
+          </div>
+        </div>
+      </article>
+      <article class="tile t2 reveal">
+        <span class="label">Celular primero</span>
+        <div class="big-num">8<span class="serif">/10</span></div>
+        <p>visitas llegan desde el celular. Tu página se ve perfecta ahí.</p>
+      </article>
+      <article class="tile t3 reveal">
+        <span class="label">Google Maps</span>
+        <div class="stars">★★★★★</div>
+        <h3>Aparece cuando te buscan cerca</h3>
+        <p>Ficha con fotos, horarios y reseñas.</p>
+      </article>
+      <article class="tile t4 reveal">
+        <span class="label">Tu dominio</span>
+        <h3 class="mono" style="font-size:20px;letter-spacing:-.02em">tunegocio<span style="color:var(--muted)">.com.mx</span></h3>
+        <p>Una dirección propia que da confianza.</p>
+      </article>
+      <article class="tile t5 reveal">
+        <span class="label">Siempre al día</span>
+        <h3>Cambios cada mes</h3>
+        <div class="pins"><span>precios</span><span>promos</span><span>menú</span><span>fotos</span></div>
+      </article>
     </div>
   </div>
 </section>
 
-<section>
+<section style="padding-top:0">
   <div class="wrap">
-    <p class="eyebrow">Cómo trabajamos</p>
-    <h2>Sencillo y sin sorpresas</h2>
-    <ol class="steps">
-      <li><b>Platicamos 15 minutos</b><span>Me cuentas de tu negocio y me mandas fotos, precios y horarios.</span></li>
-      <li><b>Ves tu página en 3 días</b><span>Te mando el link para que la revises en tu celular y pidas cambios.</span></li>
-      <li><b>La publicamos</b><span>Con tu dominio y tu ficha de Google lista. Pagas 50% al inicio y 50% al final.</span></li>
-    </ol>
+    <div class="sec-head reveal"><div><span class="label">Proceso</span><h2>Sencillo y <span class="serif">sin sorpresas</span></h2></div></div>
+    <div class="steps reveal">
+      <div class="step"><div class="n">01</div><h3>Platicamos 15 minutos</h3><p>Me cuentas de tu negocio y me mandas fotos, precios y horarios.</p></div>
+      <div class="step"><div class="n">02</div><h3>Ves tu página en 3 días</h3><p>Te mando el link para revisarla en tu celular y pedir cambios.</p></div>
+      <div class="step"><div class="n">03</div><h3>La publicamos</h3><p>Con tu dominio y tu ficha de Google lista. 50% al inicio y 50% al final.</p></div>
+    </div>
   </div>
 </section>
 
-<section id="contacto" class="contact">
+<section id="precios" style="padding-top:0">
   <div class="wrap">
-    <div><h2>¿Hacemos la tuya?</h2><p>Escríbeme por WhatsApp y te mando una propuesta hoy mismo.</p></div>
-    <span class="num">55 0000 0000</span>
+    <div class="sec-head reveal"><div><span class="label">Precios · MXN</span><h2>Claros desde <span class="serif">el inicio</span></h2></div><p>Pago único. El dominio (.com.mx, unos $300 al año) va aparte.</p></div>
+    <div class="plans">
+      <div class="plan reveal"><span class="label">Ficha de Google</span><div class="price">$500</div><ul><li>Fotos y descripción</li><li>Horarios y servicios</li><li>Respuesta a reseñas</li></ul></div>
+      <div class="plan hl reveal"><span class="label">Página web</span><div class="price">$3,500 <small>desde</small></div><ul><li>Diseño como los ejemplos</li><li>Citas o reservas por WhatsApp</li><li>Ficha de Google incluida</li><li>Lista en 7 días</li></ul></div>
+      <div class="plan reveal"><span class="label">Mantenimiento</span><div class="price">$350 <small>/ mes</small></div><ul><li>Cambios de precios y promos</li><li>Menú del día actualizado</li><li>Soporte por WhatsApp</li></ul></div>
+    </div>
   </div>
 </section>
-<footer><div class="wrap">© 2026 nicoburgueno · Ciudad de México</div></footer>
+
+<section class="closing" id="contacto">
+  <div class="glow a" style="top:auto;bottom:-260px;right:auto;left:50%;transform:translateX(-50%)"></div>
+  <div class="wrap reveal">
+    <span class="label">Contacto</span>
+    <h2>¿Hacemos <span class="serif">la tuya</span>?</h2>
+    <p>Escríbeme por WhatsApp y te mando una propuesta el mismo día.</p>
+    <a class="btn solid" href="https://wa.me/525500000000" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr">→</span></a>
+    <div class="phone-num">55 0000 0000</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg viewBox="6 32 100 56" role="img" aria-label="nb"><text x="14" y="72" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" font-size="34" fill="#f1efe9" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect class="cursor" x="76" y="47" width="14" height="30" fill="#e5242b"/></svg>
+    <span>© 2026 nicoburgueno · Ciudad de México</span>
+  </div>
+</footer>
+
+<script>
+// Titular: cada palabra sube con un pequeño retraso
+(function () {
+  const h = document.getElementById("headline");
+  let i = 0;
+  const wrapWords = (node) => {
+    [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const w = document.createElement("span"); w.className = "w";
+          const s = document.createElement("span"); s.textContent = part; s.style.animationDelay = `${0.15 + i++ * 0.08}s`;
+          w.appendChild(s); frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) {
+        const w = document.createElement("span"); w.className = "w";
+        const s = n.cloneNode(true); s.style.animationDelay = `${0.15 + i++ * 0.08}s`;
+        w.appendChild(s); n.replaceWith(w);
+      }
+    });
+  };
+  wrapWords(h);
+})();
+
+// Luz que sigue al mouse en el inicio
+(function () {
+  const hero = document.querySelector(".hero"), spot = document.getElementById("spot");
+  hero.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    spot.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    spot.style.setProperty("--my", `${e.clientY - r.top}px`);
+  });
+})();
+
+// Aparición al hacer scroll
+(function () {
+  const els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  }), { rootMargin: "0px 0px -8% 0px" });
+  els.forEach((e, k) => { e.style.transitionDelay = `${(k % 3) * 0.08}s`; io.observe(e); });
+})();
+
+// Ajustar las páginas dentro de los celulares al tamaño de la pantalla
+(function () {
+  const fit = () => document.querySelectorAll(".screen").forEach((s) => {
+    const f = s.querySelector("iframe");
+    f.style.transform = `scale(${s.clientWidth / 390})`;
+  });
+  fit();
+  addEventListener("resize", fit);
+})();
+</script>
 </body>
 </html>
