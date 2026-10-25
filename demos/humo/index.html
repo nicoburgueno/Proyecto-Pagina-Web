@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Humo · Cocina al carbón</title>
+<meta name="description" content="Humo, cocina mexicana al carbón en la Roma. Reserva tu mesa.">
+<meta name="theme-color" content="#0b0908">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap">
+<style>
+/* Concepto: brasa. Negro carbón, tipografía condensada enorme, humo vivo en canvas y chispas que suben.
+   La carta se lee como una bitácora de fuego: horas, grados y leña de cada plato. */
+:root {
+  --bg: #0b0908;
+  --surface: #141110;
+  --line: #2a2320;
+  --ink: #f3ebe1;
+  --muted: #a1958a;
+  --dim: #5e5550;
+  --ember: #ff6a2b;
+  --ember-2: #ffb36b;
+  --display: "Anton", Impact, "Arial Narrow", sans-serif;
+  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  --serif: "Instrument Serif", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; }
+button, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.demo { position: relative; z-index: 60; background: var(--ember); color: #1d0a02; font-size: 12px; font-weight: 500; text-align: center; padding: 6px 16px; }
+
+header.top { position: absolute; top: 30px; left: 0; right: 0; z-index: 20; }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 18px; }
+.logo { font-family: var(--display); font-size: 28px; letter-spacing: .04em; text-decoration: none; }
+.logo span { color: var(--ember); }
+header nav { display: flex; gap: 26px; font-size: 14px; color: var(--muted); }
+header nav a { text-decoration: none; }
+header nav a:hover { color: var(--ink); }
+.pill { text-decoration: none; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); font-weight: 500; font-size: 14px; }
+
+/* Portada con humo vivo */
+.hero { position: relative; min-height: 100vh; overflow: hidden; display: flex; align-items: flex-end; padding-bottom: 6vh; }
+#smoke { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero::after { content: ""; position: absolute; inset: auto 0 0; height: 45%; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+.coals { position: absolute; left: 50%; bottom: -24vh; width: 120vw; height: 50vh; transform: translateX(-50%); background: radial-gradient(50% 50% at 50% 50%, rgba(255, 106, 43, .55), rgba(255, 80, 20, .15) 45%, transparent 70%); filter: blur(20px); animation: breathe 4s ease-in-out infinite alternate; }
+@keyframes breathe { to { opacity: .65; transform: translateX(-50%) scale(1.05); } }
+.hero .wrap { position: relative; z-index: 2; width: 100%; }
+.hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(120px, 30vw, 460px); line-height: .78; letter-spacing: -.01em; margin: 0; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--ink) 40%, #ffcf9f 75%, var(--ember)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-row { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-top: 18px; }
+.hero-row p { margin: 0; max-width: 38ch; color: var(--muted); font-size: 18px; }
+.hero-row p em { font-family: var(--serif); color: var(--ink); font-size: 1.25em; }
+.meta { font-family: var(--mono); font-size: 13px; color: var(--muted); text-align: right; line-height: 1.9; }
+.meta b { color: var(--ember-2); font-weight: 500; }
+
+/* Cinta de fuego */
+.ticker { border-block: 1px solid var(--line); overflow: hidden; padding-block: 16px; }
+.ticker div { display: flex; gap: 40px; width: max-content; animation: tick 30s linear infinite; font-family: var(--display); font-size: clamp(26px, 3.4vw, 46px); text-transform: uppercase; color: var(--dim); }
+.ticker span b { color: var(--ink); font-weight: 400; }
+.ticker span::after { content: "●"; margin-left: 40px; font-size: .4em; color: var(--ember); vertical-align: middle; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+section { padding-block: 110px; }
+.head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
+h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(56px, 9vw, 140px); line-height: .85; margin: 10px 0 0; }
+h2 em { font-family: var(--serif); text-transform: none; font-style: italic; color: var(--ember-2); font-size: .85em; }
+.head p { color: var(--muted); max-width: 38ch; margin: 0; }
+
+/* Carta: bitácora de fuego */
+.menu { border-top: 1px solid var(--line); }
+.dish { display: grid; grid-template-columns: 80px 1.4fr 1fr 120px; gap: 24px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line); position: relative; transition: padding .4s cubic-bezier(.2, .7, .1, 1); }
+.dish::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255, 106, 43, .12), transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
+.dish:hover { padding-left: 14px; }
+.dish:hover::before { opacity: 1; }
+.dish .n { font-family: var(--mono); color: var(--dim); }
+.dish h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 3.4vw, 46px); line-height: 1; margin: 0; }
+.dish h3 small { display: block; font-family: var(--sans); text-transform: none; font-size: 15px; color: var(--muted); margin-top: 8px; }
+.fire { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.fire span b { display: block; color: var(--ember-2); font-weight: 500; font-size: 18px; }
+.dish .price { font-family: var(--mono); font-size: 20px; text-align: right; }
+
+/* Menú degustación */
+.tasting { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.card { border: 1px solid var(--line); border-radius: 28px; padding: 36px; background: var(--surface); position: relative; overflow: hidden; }
+.card.hot { background: radial-gradient(120% 120% at 100% 100%, rgba(255, 106, 43, .35), transparent 55%), var(--surface); }
+.card h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(40px, 5vw, 72px); line-height: .9; margin: 12px 0 18px; }
+.card ol { margin: 0; padding: 0; list-style: none; counter-reset: c; display: grid; gap: 10px; color: var(--muted); }
+.card ol li { counter-increment: c; display: grid; grid-template-columns: 34px 1fr; }
+.card ol li::before { content: counter(c, decimal-leading-zero); font-family: var(--mono); color: var(--dim); font-size: 13px; padding-top: 3px; }
+.card .big { font-family: var(--mono); font-size: 40px; color: var(--ink); margin-top: 26px; }
+.card .big small { font-size: 14px; color: var(--muted); }
+
+/* Reservación */
+.reserve { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.panel { border: 1px solid var(--line); border-radius: 28px; padding: 30px; background: var(--surface); display: grid; gap: 18px; }
+.lbl { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.chip { border: 1px solid var(--line); background: var(--bg); padding: 10px 14px; border-radius: 12px; cursor: pointer; font-family: var(--mono); font-size: 14px; transition: .2s; }
+.chip small { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+.chip[aria-pressed="true"] { background: var(--ember); border-color: var(--ember); color: #1d0a02; }
+.chip[aria-pressed="true"] small { color: #1d0a02; }
+.people { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+.people button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); cursor: pointer; font-size: 20px; }
+.people output { font-family: var(--display); font-size: 40px; min-width: 2ch; text-align: center; }
+.summary { font-size: 15px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 16px; }
+.summary b { color: var(--ink); font-weight: 500; }
+.go { text-decoration: none; text-align: center; background: var(--ember); color: #1d0a02; font-weight: 600; padding: 16px; border-radius: 999px; }
+.quote { font-family: var(--serif); font-style: italic; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.1; margin: 0; }
+.quote small { display: block; font-family: var(--mono); font-style: normal; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-top: 22px; }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; padding-block: 56px 28px; color: var(--muted); font-size: 15px; }
+footer .logo { font-size: 72px; line-height: .8; }
+footer b { display: block; color: var(--ink); font-weight: 500; margin-bottom: 6px; }
+.credit { text-align: center; font-family: var(--mono); font-size: 12px; color: var(--dim); padding: 0 20px calc(28px + env(safe-area-inset-bottom, 0px)); }
+
+@media (max-width: 900px) {
+  header nav { display: none; }
+  .dish { grid-template-columns: 40px 1fr auto; }
+  .dish .fire { grid-column: 2 / -1; }
+  .tasting, .reserve { grid-template-columns: 1fr; }
+  footer .wrap { grid-template-columns: 1fr 1fr; }
+  .meta { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="demo">Proyecto conceptual de nicoburgueno · Humo es un restaurante ficticio</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">HUMO<span>.</span></a>
+    <nav aria-label="Secciones"><a href="#carta">Carta</a><a href="#degustacion">Degustación</a><a href="#reservar">Reservar</a></nav>
+    <a class="pill" href="#reservar">Reservar mesa</a>
+  </div>
+</header>
+
+<section class="hero" style="padding-top:0">
+  <canvas id="smoke" aria-hidden="true"></canvas>
+  <div class="coals" aria-hidden="true"></div>
+  <div class="wrap">
+    <h1>Humo</h1>
+    <div class="hero-row">
+      <p>Cocina mexicana al <em>carbón de encino</em>. Todo pasa por el fuego: carnes, verduras, salsas y hasta el postre.</p>
+      <div class="meta"><b>●</b> Parrilla encendida desde las 13:00<br>Roma Norte · Ciudad de México</div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span><b>Encino</b> 650 °C</span><span>Mezquite</span><span><b>Brasa lenta</b> 14 h</span><span>Comal de barro</span><span><b>Salsas tatemadas</b></span><span>Tortilla a mano</span>
+  <span><b>Encino</b> 650 °C</span><span>Mezquite</span><span><b>Brasa lenta</b> 14 h</span><span>Comal de barro</span><span><b>Salsas tatemadas</b></span><span>Tortilla a mano</span>
+</div></div>
+
+<section id="carta">
+  <div class="wrap">
+    <div class="head"><div><span class="label">La carta</span><h2>Del fuego <em>a la mesa</em></h2></div><p>Cada plato dice cuánto tiempo pasó en la brasa y con qué leña. Así cocinamos.</p></div>
+    <div class="menu">
+      <article class="dish"><span class="n">01</span><h3>Costilla de res<small>Glaseada con chile pasilla y piloncillo</small></h3><div class="fire"><span><b>14 h</b>Brasa lenta</span><span><b>110 °C</b>Ahumador</span><span><b>Encino</b>Leña</span></div><span class="price">$420</span></article>
+      <article class="dish"><span class="n">02</span><h3>Pulpo tatemado<small>Con aguachile negro y aguacate asado</small></h3><div class="fire"><span><b>4 min</b>Brasa directa</span><span><b>650 °C</b>Parrilla</span><span><b>Mezquite</b>Leña</span></div><span class="price">$380</span></article>
+      <article class="dish"><span class="n">03</span><h3>Coliflor entera<small>Mole de pepita y queso de cabra</small></h3><div class="fire"><span><b>50 min</b>En las cenizas</span><span><b>300 °C</b>Rescoldo</span><span><b>Encino</b>Leña</span></div><span class="price">$240</span></article>
+      <article class="dish"><span class="n">04</span><h3>Tacos de suadero<small>Tortilla de maíz azul hecha al momento</small></h3><div class="fire"><span><b>3 h</b>Confitado</span><span><b>Comal</b>De barro</span><span><b>Carbón</b>Encino</span></div><span class="price">$190</span></article>
+      <article class="dish"><span class="n">05</span><h3>Plátano al rescoldo<small>Helado de vainilla y cajeta quemada</small></h3><div class="fire"><span><b>20 min</b>En las cenizas</span><span><b>Cajeta</b>Flameada</span><span><b>Encino</b>Leña</span></div><span class="price">$150</span></article>
+    </div>
+  </div>
+</section>
+
+<section id="degustacion" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><div><span class="label">Degustación</span><h2>Siete <em>tiempos</em></h2></div><p>Jueves a sábado, solo 16 lugares en la barra frente a la parrilla.</p></div>
+    <div class="tasting">
+      <div class="card">
+        <span class="label">El recorrido</span>
+        <h3>Barra de fuego</h3>
+        <ol><li>Tostada de atún ahumado en frío</li><li>Elote tatemado con mantequilla de chicatana</li><li>Caldo de piedra de la casa</li><li>Pulpo al mezquite</li><li>Costilla de 14 horas</li><li>Quesos de Chiapas a la brasa</li><li>Plátano al rescoldo</li></ol>
+      </div>
+      <div class="card hot">
+        <span class="label">Por persona</span>
+        <h3>Frente a la parrilla</h3>
+        <p style="color:var(--muted);margin:0">Te sientas donde pasa todo. El cocinero te explica cada plato mientras lo saca del fuego.</p>
+        <div class="big">$1,450 <small>MXN · maridaje de mezcal +$650</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reservar" style="padding-top:0">
+  <div class="wrap reserve">
+    <div>
+      <span class="label">Reservaciones</span>
+      <h2>Aparta <em>tu brasa</em></h2>
+      <p class="quote" style="margin-top:36px">"El fuego no se apura. Nosotros tampoco."<small>Cocina de Humo</small></p>
+    </div>
+    <div class="panel">
+      <div><span class="lbl">Personas</span><div class="people"><button type="button" id="minus" aria-label="Menos personas">−</button><output id="pp">2</output><button type="button" id="plus" aria-label="Más personas">+</button></div></div>
+      <div><span class="lbl">Día</span><div class="chips" id="days"></div></div>
+      <div><span class="lbl">Hora</span><div class="chips" id="times"></div></div>
+      <div><span class="lbl">Dónde</span><div class="chips" id="zone"><button class="chip" type="button" aria-pressed="true">Salón</button><button class="chip" type="button" aria-pressed="false">Terraza</button><button class="chip" type="button" aria-pressed="false">Barra de fuego</button></div></div>
+      <div class="summary" id="summary"></div>
+      <a class="go" id="go" href="#" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><a class="logo" href="#">HUMO<span>.</span></a></div>
+    <div><b>Dirección</b>Calle de ejemplo 300, Roma Norte</div>
+    <div><b>Horario</b>Mar a dom · 13:00 a 23:00</div>
+    <div><b>WhatsApp</b><span style="font-family:var(--mono)">55 0000 0000</span></div>
+  </div>
+  <p class="credit">Diseño y desarrollo: nicoburgueno · Proyecto conceptual</p>
+</footer>
+
+<script>
+// Humo y chispas en canvas: partículas suaves que suben y se desvanecen
+(function () {
+  const c = document.getElementById("smoke"), x = c.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let w, h, dpr, puffs = [], sparks = [];
+  const size = () => { dpr = Math.min(2, devicePixelRatio || 1); w = c.clientWidth; h = c.clientHeight; c.width = w * dpr; c.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  size(); addEventListener("resize", size);
+  const puff = () => ({ x: w * (0.15 + Math.random() * 0.7), y: h + 60, r: 60 + Math.random() * 120, vy: 0.3 + Math.random() * 0.5, vx: (Math.random() - 0.5) * 0.3, a: 0, life: 0, max: 600 + Math.random() * 400 });
+  const spark = () => ({ x: w * (0.2 + Math.random() * 0.6), y: h - 10, vy: 1 + Math.random() * 2.2, vx: (Math.random() - 0.5) * 0.8, life: 0, max: 120 + Math.random() * 160, s: 1 + Math.random() * 1.8 });
+  for (let i = 0; i < 26; i++) { const p = puff(); p.y = Math.random() * h; p.life = Math.random() * p.max; puffs.push(p); }
+  function frame() {
+    x.clearRect(0, 0, w, h);
+    if (puffs.length < 34) puffs.push(puff());
+    if (Math.random() < 0.35 && sparks.length < 60) sparks.push(spark());
+    puffs.forEach((p) => {
+      p.life++; p.y -= p.vy; p.x += p.vx + Math.sin(p.life / 90) * 0.25; p.r += 0.12;
+      const t = p.life / p.max, a = Math.sin(Math.PI * Math.min(1, t)) * 0.07;
+      const g = x.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      g.addColorStop(0, `rgba(210,200,190,${a})`); g.addColorStop(1, "rgba(210,200,190,0)");
+      x.fillStyle = g; x.beginPath(); x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill();
+    });
+    puffs = puffs.filter((p) => p.life < p.max);
+    sparks.forEach((s) => {
+      s.life++; s.y -= s.vy; s.x += s.vx + Math.sin(s.life / 12) * 0.4;
+      const a = 1 - s.life / s.max;
+      x.fillStyle = `rgba(255,${120 + Math.floor(80 * a)},60,${a})`;
+      x.beginPath(); x.arc(s.x, s.y, s.s, 0, Math.PI * 2); x.fill();
+    });
+    sparks = sparks.filter((s) => s.life < s.max);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// Reservación
+(function () {
+  const WA = "525500000000";
+  const dias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"], largos = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+  const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const st = { n: 2, day: null, time: null, zone: "Salón" };
+  const daysEl = document.getElementById("days"), timesEl = document.getElementById("times");
+  const pick = (box, btn) => [...box.children].forEach((b) => b.setAttribute("aria-pressed", b === btn));
+  const now = new Date();
+  for (let i = 0, added = 0; added < 6 && i < 10; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    if (d.getDay() === 1) continue; // cerrado en lunes
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.setAttribute("aria-pressed", "false");
+    b.innerHTML = `<small>${i === 0 ? "Hoy" : dias[d.getDay()]}</small>${d.getDate()}`;
+    b.addEventListener("click", () => { st.day = d; pick(daysEl, b); upd(); });
+    daysEl.appendChild(b); added++;
+  }
+  ["14:00", "15:30", "19:00", "20:30", "22:00"].forEach((t) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = t; b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", () => { st.time = t; pick(timesEl, b); upd(); });
+    timesEl.appendChild(b);
+  });
+  document.querySelectorAll("#zone .chip").forEach((b) => b.addEventListener("click", () => { st.zone = b.textContent; pick(document.getElementById("zone"), b); upd(); }));
+  document.getElementById("minus").addEventListener("click", () => { st.n = Math.max(1, st.n - 1); upd(); });
+  document.getElementById("plus").addEventListener("click", () => { st.n = Math.min(12, st.n + 1); upd(); });
+  function upd() {
+    document.getElementById("pp").textContent = st.n;
+    const fecha = st.day ? `${largos[st.day.getDay()]} ${st.day.getDate()} de ${meses[st.day.getMonth()]}` : "elige un día";
+    document.getElementById("summary").innerHTML = `Mesa para <b>${st.n}</b> · <b>${fecha}</b> · <b>${st.time || "elige hora"}</b> · ${st.zone}`;
+    const msg = `Hola, quiero reservar en Humo para ${st.n} personas el ${fecha} a las ${st.time || "--"}, en ${st.zone}.`;
+    document.getElementById("go").href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+  }
+  daysEl.children[0].click(); timesEl.children[2].click();
+})();
+</script>
+</body>
+</html>

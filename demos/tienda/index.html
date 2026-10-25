@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tierra Dulce · Mermeladas de Oaxaca</title>
+<meta name="description" content="Mermeladas artesanales hechas en Oaxaca. Pide en línea y recibe en CDMX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+/* Concepto: una rueda gigante con los frascos en el borde. Al cambiar de producto gira la rueda entera
+   y el fondo se tiñe del color de la fruta. El texto curvo gira a la mitad de velocidad. */
+@property --bg { syntax: "<color>"; inherits: true; initial-value: #b8322b; }
+@property --bg2 { syntax: "<color>"; inherits: true; initial-value: #7d1d18; }
+:root {
+  --ink: #fff8ef;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  --R: clamp(620px, 92vw, 1150px);
+  --A: 24deg;
+  --rot: 0deg;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 20%, var(--bg), var(--bg2)); transition: --bg .9s cubic-bezier(.65, 0, .35, 1), --bg2 .9s cubic-bezier(.65, 0, .35, 1); }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 8px; }
+.demo { position: fixed; top: 0; left: 0; right: 0; z-index: 30; text-align: center; font-size: 12px; padding: 6px 16px; background: rgba(0, 0, 0, .25); }
+
+header { position: fixed; top: calc(30px + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 14px max(20px, 3vw); }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+.logo svg { width: 30px; height: 30px; }
+header nav { display: flex; gap: 26px; font-size: 14px; }
+header nav a { text-decoration: none; opacity: .85; }
+.cart-btn { display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 248, 239, .35); background: rgba(255, 255, 255, .08); padding: 9px 16px; border-radius: 999px; cursor: pointer; backdrop-filter: blur(8px); }
+.cart-btn b { min-width: 22px; height: 22px; border-radius: 999px; background: var(--ink); color: var(--bg2); font-size: 12px; display: grid; place-items: center; }
+
+/* Rueda */
+.scene { position: fixed; inset: 0; overflow: hidden; }
+.curve { position: absolute; left: 50%; top: calc(50vh + var(--R)); width: calc(var(--R) * 2.2); height: calc(var(--R) * 2.2); transform: translate(-50%, -50%) rotate(calc(var(--rot) / 2)); transition: transform .9s cubic-bezier(.65, 0, .35, 1); pointer-events: none; }
+.curve text { font-family: var(--serif); font-weight: 700; font-size: 150px; letter-spacing: 6px; fill: rgba(255, 248, 239, .13); text-transform: uppercase; }
+.wheel { position: absolute; left: 50%; top: calc(50vh + var(--R)); width: 0; height: 0; transform: rotate(var(--rot)); transition: transform .9s cubic-bezier(.65, 0, .35, 1); }
+.item { position: absolute; left: 0; top: 0; transform: rotate(calc(var(--i) * var(--A))) translateY(calc(var(--R) * -1)); }
+.jar { position: absolute; left: 0; top: 0; width: clamp(150px, 19vw, 250px); transform: translate(-50%, -54%); cursor: pointer; }
+.jar .bob { animation: bob 5s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -1.3s); }
+.jar svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 36px 30px rgba(0, 0, 0, .35)); transition: transform .9s cubic-bezier(.65, 0, .35, 1); }
+.item:not(.active) .jar svg { transform: scale(.82); }
+@keyframes bob { from { transform: translateY(0) rotate(0); } to { transform: translateY(-10px) rotate(2deg); } }
+
+/* Información del producto */
+.info { position: fixed; left: max(20px, 4vw); top: 50%; transform: translateY(-50%); z-index: 10; width: min(360px, 34vw); }
+.kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
+.info h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(46px, 5.6vw, 88px); line-height: .9; letter-spacing: -.03em; margin: 14px 0 16px; }
+.info h1 em { font-style: italic; }
+.info p { margin: 0 0 22px; opacity: .85; line-height: 1.55; }
+.buy { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.price { font-family: var(--mono); font-size: 22px; }
+.price small { font-size: 12px; opacity: .7; }
+.add { border: 0; background: var(--ink); color: var(--bg2); padding: 14px 22px; border-radius: 999px; font-weight: 600; cursor: pointer; transition: transform .2s; }
+.add:hover { transform: translateY(-2px); }
+.swap { animation: swap .6s cubic-bezier(.2, .7, .1, 1); }
+@keyframes swap { from { opacity: 0; transform: translateY(12px); } }
+
+.side { position: fixed; right: max(20px, 4vw); top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
+.count { font-family: var(--serif); font-size: 64px; line-height: 1; }
+.count small { font-size: 22px; opacity: .6; }
+.arrows { display: flex; gap: 8px; }
+.arrows button { width: 54px; height: 54px; border-radius: 50%; border: 1px solid rgba(255, 248, 239, .4); background: rgba(255, 255, 255, .06); cursor: pointer; font-size: 20px; transition: background .2s; }
+.arrows button:hover { background: rgba(255, 255, 255, .18); }
+.facts { font-family: var(--mono); font-size: 12px; text-align: right; opacity: .8; line-height: 1.9; }
+.dots { position: fixed; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+.dots button { width: 8px; height: 8px; border-radius: 99px; border: 0; padding: 0; background: rgba(255, 248, 239, .35); cursor: pointer; transition: width .3s, background .3s; }
+.dots button[aria-current="true"] { width: 28px; background: var(--ink); }
+
+/* Carrito */
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 40; width: min(400px, 100%); background: #fff8ef; color: #2a1712; padding: calc(28px + env(safe-area-inset-top, 0px)) 26px calc(26px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; transform: translateX(105%); transition: transform .5s cubic-bezier(.65, 0, .35, 1); box-shadow: -30px 0 60px rgba(0, 0, 0, .25); }
+.drawer.open { transform: none; }
+.drawer h2 { font-family: var(--serif); font-weight: 400; font-size: 36px; margin: 0; }
+.drawer .close { position: absolute; top: calc(22px + env(safe-area-inset-top, 0px)); right: 22px; border: 0; background: none; font-size: 26px; cursor: pointer; color: #2a1712; }
+.lines { flex: 1; overflow: auto; display: grid; align-content: start; gap: 12px; }
+.line { display: grid; grid-template-columns: 14px 1fr auto auto; gap: 12px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #ecdcc8; }
+.line i { width: 14px; height: 14px; border-radius: 4px; }
+.line .q { display: flex; align-items: center; gap: 6px; }
+.line .q button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #d8c4ab; background: none; cursor: pointer; color: #2a1712; }
+.line span.m { font-family: var(--mono); font-size: 14px; }
+.empty { opacity: .6; }
+.total { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 18px; border-top: 2px solid #2a1712; padding-top: 14px; }
+.checkout { text-align: center; text-decoration: none; background: #2a1712; color: #fff8ef; padding: 15px; border-radius: 999px; font-weight: 600; }
+.ship { font-size: 13px; opacity: .7; text-align: center; margin: 0; }
+.scrim { position: fixed; inset: 0; z-index: 35; background: rgba(0, 0, 0, .35); opacity: 0; pointer-events: none; transition: opacity .4s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.toast { position: fixed; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translate(-50%, 20px); opacity: 0; z-index: 25; background: #fff8ef; color: #2a1712; padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; transition: .35s; pointer-events: none; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 860px) {
+  :root { --R: 640px; --A: 30deg; }
+  header nav { display: none; }
+  .wheel, .curve { top: calc(40vh + var(--R)); }
+  .jar { width: min(46vw, 210px); }
+  .info { left: 0; right: 0; top: auto; bottom: calc(56px + env(safe-area-inset-bottom, 0px)); transform: none; width: auto; padding: 0 22px; text-align: center; }
+  .info h1 { font-size: clamp(40px, 11vw, 56px); margin: 8px 0 10px; }
+  .info p { font-size: 14px; margin-bottom: 16px; }
+  .buy { justify-content: center; }
+  .side { top: calc(96px + env(safe-area-inset-top, 0px)); transform: none; flex-direction: row; align-items: center; gap: 12px; }
+  .count { font-size: 34px; }
+  .count small { font-size: 14px; }
+  .facts { display: none; }
+  .arrows button { width: 44px; height: 44px; }
+  .curve text { font-size: 110px; }
+}
+@media (max-height: 640px) and (max-width: 860px) { .info p { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="demo">Proyecto conceptual de nicoburgueno · Tierra Dulce es una marca ficticia</div>
+
+<header>
+  <a class="logo" href="#" aria-label="Tierra Dulce">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 7c4 4 6 7 6 11a6 6 0 0 1-12 0c0-4 2-7 6-11z" fill="currentColor"/></svg>
+    Tierra Dulce
+  </a>
+  <nav aria-label="Secciones"><a href="#">Mermeladas</a><a href="#">Regalos</a><a href="#">Nosotras</a></nav>
+  <button class="cart-btn" id="openCart" type="button" aria-label="Abrir carrito">Carrito <b id="cartCount">0</b></button>
+</header>
+
+<div class="scene">
+  <svg class="curve" viewBox="0 0 1000 1000" aria-hidden="true">
+    <defs><path id="circ" d="M500 500m-430 0a430 430 0 1 1 860 0a430 430 0 1 1-860 0"/></defs>
+    <text><textPath href="#circ">Hecho en Oaxaca · fruta de temporada · sin conservadores · Hecho en Oaxaca · fruta de temporada ·</textPath></text>
+  </svg>
+  <div class="wheel" id="wheel"></div>
+</div>
+
+<section class="info" aria-live="polite">
+  <div id="infoInner">
+    <span class="kicker" id="kicker"></span>
+    <h1 id="name"></h1>
+    <p id="desc"></p>
+    <div class="buy"><span class="price" id="price"></span><button class="add" id="add" type="button">Agregar al carrito</button></div>
+  </div>
+</section>
+
+<aside class="side">
+  <div class="count" id="count"></div>
+  <div class="arrows"><button type="button" id="prev" aria-label="Producto anterior">←</button><button type="button" id="next" aria-label="Producto siguiente">→</button></div>
+  <div class="facts" id="facts"></div>
+</aside>
+<nav class="dots" id="dots" aria-label="Productos"></nav>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Carrito">
+  <button class="close" id="closeCart" type="button" aria-label="Cerrar carrito">×</button>
+  <h2>Tu carrito</h2>
+  <div class="lines" id="lines"></div>
+  <div class="total"><span>Total</span><span id="total">$0</span></div>
+  <a class="checkout" id="checkout" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  <p class="ship">Envío gratis en CDMX en pedidos desde $500.</p>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const products = [
+  { id: "fresa", name: "Fresa <em>y vainilla</em>", plain: "Fresa y vainilla", kicker: "Clásica · 280 g", desc: "Fresas de Zamora cocidas despacio con vaina de vainilla de Papantla.", price: 145, bg: "#b8322b", bg2: "#6e1712", fruit: "#c42a2a", label: "#f6e7d4", lid: "#c9a96a", facts: ["63% fruta", "Sin pectina añadida", "Cocida en cazo de cobre"] },
+  { id: "mango", name: "Mango <em>con chile</em>", plain: "Mango con chile", kicker: "Picosita · 280 g", desc: "Mango ataulfo con chile de árbol tostado. Dulce primero, pica al final.", price: 155, bg: "#e0892a", bg2: "#8a4210", fruit: "#f0a02a", label: "#fff3dc", lid: "#2d2d2d", facts: ["60% fruta", "Picor 2 de 5", "Ideal con queso"] },
+  { id: "zarzamora", name: "Zarzamora <em>y mezcal</em>", plain: "Zarzamora y mezcal", kicker: "Edición especial · 280 g", desc: "Zarzamoras de Michoacán con un toque de mezcal espadín. Para adultos.", price: 175, bg: "#4c2a5e", bg2: "#1f0f29", fruit: "#5a1f52", label: "#efe4f2", lid: "#b5b5b5", facts: ["65% fruta", "Con mezcal espadín", "Edición limitada"] },
+  { id: "guayaba", name: "Guayaba <em>rosa</em>", plain: "Guayaba rosa", kicker: "De temporada · 280 g", desc: "Guayaba de Calvillo con canela. Sabe a ponche de diciembre.", price: 145, bg: "#d9687b", bg2: "#7d2a3b", fruit: "#e88a96", label: "#fff1f1", lid: "#7a1f2f", facts: ["62% fruta", "Con canela", "Solo en invierno"] },
+  { id: "higo", name: "Higo <em>y nuez</em>", plain: "Higo y nuez", kicker: "Gourmet · 280 g", desc: "Higos negros con nuez pecana de Coahuila. Perfecta para tablas de quesos.", price: 165, bg: "#5d6b3a", bg2: "#262d14", fruit: "#5e3b4a", label: "#f3efd9", lid: "#3a2a1a", facts: ["58% fruta", "Con nuez pecana", "Para tablas de quesos"] },
+];
+const fmt = (n) => "$" + n.toLocaleString("es-MX");
+const WA = "525500000000";
+
+const jar = (p) => `
+<svg viewBox="0 0 200 250" aria-hidden="true">
+  <defs>
+    <linearGradient id="gl-${p.id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".22" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></linearGradient>
+    <linearGradient id="lid-${p.id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".3" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient>
+  </defs>
+  <rect x="38" y="44" width="124" height="190" rx="30" fill="${p.fruit}"/>
+  <rect x="38" y="44" width="124" height="190" rx="30" fill="url(#gl-${p.id})"/>
+  <rect x="48" y="38" width="104" height="18" rx="6" fill="#d9d2c8" opacity=".55"/>
+  <rect x="44" y="8" width="112" height="38" rx="9" fill="${p.lid}"/>
+  <rect x="44" y="8" width="112" height="38" rx="9" fill="url(#lid-${p.id})"/>
+  <g stroke="#000" stroke-opacity=".18" stroke-width="2">${Array.from({ length: 13 }, (_, k) => `<line x1="${52 + k * 8}" y1="12" x2="${52 + k * 8}" y2="42"/>`).join("")}</g>
+  <rect x="50" y="96" width="100" height="100" rx="10" fill="${p.label}"/>
+  <text x="100" y="128" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="15" fill="#2a1712">Tierra</text>
+  <text x="100" y="146" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="15" fill="#2a1712">Dulce</text>
+  <line x1="66" y1="156" x2="134" y2="156" stroke="#2a1712" stroke-opacity=".3"/>
+  <text x="100" y="174" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="13" fill="${p.bg2}">${p.plain.split(" ")[0]}</text>
+  <text x="100" y="188" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#2a1712" opacity=".6" letter-spacing="1.5">OAXACA · 280 G</text>
+  <path d="M54 70c0 40 0 100 4 140" stroke="#fff" stroke-opacity=".35" stroke-width="6" stroke-linecap="round" fill="none"/>
+</svg>`;
+
+const wheel = document.getElementById("wheel");
+const dots = document.getElementById("dots");
+let cur = 0, turn = 0;
+products.forEach((p, i) => {
+  const it = document.createElement("div");
+  it.className = "item"; it.style.setProperty("--i", i);
+  it.innerHTML = `<div class="jar" role="button" tabindex="-1" aria-label="${p.plain}"><div class="bob">${jar(p)}</div></div>`;
+  it.querySelector(".jar").addEventListener("click", () => go(i));
+  wheel.appendChild(it);
+  const d = document.createElement("button");
+  d.type = "button"; d.setAttribute("aria-label", p.plain);
+  d.addEventListener("click", () => go(i));
+  dots.appendChild(d);
+});
+const items = wheel.querySelectorAll(".item");
+const A = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--A"));
+
+function render() {
+  const p = products[cur];
+  const root = document.documentElement.style;
+  root.setProperty("--rot", `${-turn * A()}deg`);
+  document.body.style.setProperty("--bg", p.bg);
+  document.body.style.setProperty("--bg2", p.bg2);
+  items.forEach((it, i) => it.classList.toggle("active", i === cur));
+  [...dots.children].forEach((d, i) => d.setAttribute("aria-current", i === cur));
+  const inner = document.getElementById("infoInner");
+  inner.classList.remove("swap"); void inner.offsetWidth; inner.classList.add("swap");
+  document.getElementById("kicker").textContent = p.kicker;
+  document.getElementById("name").innerHTML = p.name;
+  document.getElementById("desc").textContent = p.desc;
+  document.getElementById("price").innerHTML = `${fmt(p.price)} <small>MXN</small>`;
+  document.getElementById("count").innerHTML = `0${cur + 1}<small>/0${products.length}</small>`;
+  document.getElementById("facts").innerHTML = p.facts.join("<br>");
+}
+// La rueda siempre gira por el camino corto y en la misma dirección que pides
+function go(i) {
+  const n = products.length;
+  let delta = ((i - cur) % n + n) % n;
+  if (delta > n / 2) delta -= n;
+  turn += delta; cur = i;
+  render();
+}
+const step = (d) => go((cur + d + products.length) % products.length);
+document.getElementById("prev").addEventListener("click", () => step(-1));
+document.getElementById("next").addEventListener("click", () => step(1));
+addEventListener("keydown", (e) => { if (e.key === "ArrowRight") step(1); if (e.key === "ArrowLeft") step(-1); });
+let sx = null;
+addEventListener("pointerdown", (e) => { if (!e.target.closest("button, a, .drawer")) sx = e.clientX; });
+addEventListener("pointerup", (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 40) step(e.clientX < sx ? 1 : -1); sx = null; });
+
+// Los frascos se reparten en todo el círculo para que la rueda pueda dar vueltas sin fin
+function placeItems() {
+  items.forEach((it, i) => {
+    const base = i;
+    it.style.setProperty("--i", base);
+  });
+}
+placeItems();
+// Al girar más allá del último, el frasco correspondiente se recoloca en el lugar visible
+function relocate() {
+  const n = products.length;
+  items.forEach((it, i) => {
+    const k = Math.round((turn - i) / n);
+    it.style.setProperty("--i", i + k * n);
+  });
+}
+const _go = go;
+go = function (i) { _go(i); relocate(); };
+
+// Carrito
+const cart = {};
+const toast = document.getElementById("toast");
+function drawCart() {
+  const lines = document.getElementById("lines");
+  const ids = Object.keys(cart).filter((k) => cart[k] > 0);
+  let total = 0, count = 0;
+  lines.innerHTML = ids.length ? "" : `<p class="empty">Todavía no agregas nada.</p>`;
+  ids.forEach((id) => {
+    const p = products.find((x) => x.id === id), q = cart[id];
+    total += p.price * q; count += q;
+    const row = document.createElement("div");
+    row.className = "line";
+    row.innerHTML = `<i style="background:${p.fruit}"></i><span>${p.plain}</span><span class="q"><button type="button" aria-label="Quitar uno">−</button>${q}<button type="button" aria-label="Agregar uno">+</button></span><span class="m">${fmt(p.price * q)}</span>`;
+    const [minus, plus] = row.querySelectorAll("button");
+    minus.addEventListener("click", () => { cart[id]--; drawCart(); });
+    plus.addEventListener("click", () => { cart[id]++; drawCart(); });
+    lines.appendChild(row);
+  });
+  document.getElementById("total").textContent = fmt(total);
+  document.getElementById("cartCount").textContent = count;
+  const msg = "Hola, quiero pedir: " + ids.map((id) => `${cart[id]} × ${products.find((x) => x.id === id).plain}`).join(", ") + `. Total ${fmt(total)}`;
+  document.getElementById("checkout").href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+}
+document.getElementById("add").addEventListener("click", () => {
+  const p = products[cur];
+  cart[p.id] = (cart[p.id] || 0) + 1;
+  drawCart();
+  toast.textContent = `${p.plain} agregada al carrito`;
+  toast.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => toast.classList.remove("on"), 1600);
+});
+const drawer = document.getElementById("drawer"), scrim = document.getElementById("scrim");
+const openCart = (o) => { drawer.classList.toggle("open", o); scrim.classList.toggle("on", o); };
+document.getElementById("openCart").addEventListener("click", () => openCart(true));
+document.getElementById("closeCart").addEventListener("click", () => openCart(false));
+scrim.addEventListener("click", () => openCart(false));
+
+render(); relocate(); drawCart();
+</script>
+</body>
+</html>

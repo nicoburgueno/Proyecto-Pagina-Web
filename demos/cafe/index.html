@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lento · Café de especialidad</title>
+<meta name="description" content="Lento, café de especialidad en la Roma. Del grano a tu taza en una sola toma.">
+<meta name="theme-color" content="#120d0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Concepto: una sola toma. El objeto vive siempre en el centro, la historia avanza con el scroll
+   (grano, molido, agua, vertido, taza) y un hilo de café cae desde arriba según el progreso. */
+:root {
+  --bg: #120d0a;
+  --bg-2: #1a130f;
+  --cream: #efe6d8;
+  --muted: #a39482;
+  --dim: #5f5246;
+  --caramel: #c8894a;
+  --line: #2b211b;
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--cream); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--caramel); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.demo { position: relative; z-index: 60; background: var(--caramel); color: #1d1106; font-size: 12px; font-weight: 500; text-align: center; padding: 6px 16px; }
+
+header.top { position: fixed; top: calc(28px + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 50; mix-blend-mode: difference; }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 18px; }
+.logo { font-family: var(--serif); font-size: 30px; text-decoration: none; letter-spacing: -.02em; }
+.logo i { font-style: italic; }
+header nav { display: flex; gap: 24px; font-size: 14px; }
+header nav a { text-decoration: none; opacity: .8; }
+
+/* Hilo de café que cae con el scroll */
+.stream { position: fixed; top: 0; left: 50%; width: 4px; height: 100vh; margin-left: -2px; z-index: 5; pointer-events: none; transform-origin: top; transform: scaleY(0);
+  background: linear-gradient(180deg, rgba(200, 137, 74, 0), var(--caramel) 30%, #8a5426); border-radius: 0 0 4px 4px; }
+
+/* Portada */
+.hero { min-height: 100vh; display: grid; place-items: center; text-align: center; position: relative; padding: 120px 20px 80px; }
+.hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(64px, 13vw, 200px); line-height: .85; letter-spacing: -.04em; margin: 0; }
+.hero h1 em { color: var(--caramel); }
+.hero p { color: var(--muted); max-width: 40ch; margin: 28px auto 0; font-size: 18px; }
+.scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.scroll-hint span { width: 1px; height: 40px; background: linear-gradient(var(--dim), transparent); animation: hint 1.8s ease-in-out infinite; transform-origin: top; }
+@keyframes hint { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* Historia en una sola toma */
+.story { position: relative; height: 600vh; }
+.stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 1fr minmax(260px, 520px) 1fr; align-items: center; gap: 2vw; padding: 0 max(20px, 4vw); }
+.stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 50% at 50% 52%, rgba(200, 137, 74, .14), transparent 70%); }
+.copy { position: relative; height: 340px; }
+.copy article { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; opacity: 0; transform: translateY(16px); transition: none; }
+.copy .n { font-family: var(--mono); font-size: 13px; color: var(--caramel); letter-spacing: .1em; }
+.copy h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 5.4vw, 84px); line-height: .95; letter-spacing: -.03em; margin: 0; }
+.copy p { color: var(--muted); margin: 0; max-width: 32ch; }
+.object { position: relative; aspect-ratio: 1; width: 100%; max-width: 520px; justify-self: center; }
+.object svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .55)); }
+.data { position: relative; height: 340px; }
+.data div { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right; gap: 6px; opacity: 0; }
+.data b { font-family: var(--mono); font-weight: 500; font-size: clamp(40px, 5vw, 76px); letter-spacing: -.04em; line-height: 1; }
+.data span { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.ticks { position: absolute; right: max(20px, 2vw); top: 50%; transform: translateY(-50%); display: grid; gap: 12px; z-index: 2; }
+.ticks i { display: block; width: 18px; height: 2px; background: var(--dim); transition: width .3s, background .3s; }
+.ticks i.on { width: 34px; background: var(--caramel); }
+.float { animation: float 5s ease-in-out infinite alternate; transform-origin: center; transform-box: fill-box; }
+@keyframes float { to { transform: translateY(-10px) rotate(2deg); } }
+.drip { animation: drip 1.4s cubic-bezier(.5, 0, .9, .5) infinite; }
+@keyframes drip { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(70px); opacity: 0; } }
+.steam path { animation: steam 3.2s ease-in-out infinite; opacity: 0; }
+.steam path:nth-child(2) { animation-delay: .9s; }
+.steam path:nth-child(3) { animation-delay: 1.8s; }
+@keyframes steam { 0% { opacity: 0; transform: translateY(14px); } 40% { opacity: .55; } 100% { opacity: 0; transform: translateY(-24px); } }
+
+/* Tienda: los cuadros de la historia se vuelven productos */
+.shop { position: relative; z-index: 6; background: var(--bg); padding-block: 120px; border-top: 1px solid var(--line); }
+.shop-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; }
+.shop h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7vw, 104px); line-height: .9; letter-spacing: -.035em; margin: 0; }
+.shop h2 em { color: var(--caramel); }
+.shop-head p { color: var(--muted); max-width: 36ch; margin: 0; }
+.bags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.bag { background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 18px 18px 24px; display: flex; flex-direction: column; gap: 14px; }
+.bag .pic { aspect-ratio: 1; border-radius: 16px; display: grid; place-items: center; background: radial-gradient(60% 60% at 50% 55%, var(--glow), transparent 70%), #160f0b; }
+.bag .pic svg { width: 62%; height: auto; filter: drop-shadow(0 26px 24px rgba(0, 0, 0, .55)); transition: transform .5s cubic-bezier(.2, .7, .1, 1); }
+.bag:hover .pic svg { transform: translateY(-8px) rotate(-3deg); }
+.bag h3 { font-family: var(--serif); font-weight: 400; font-size: 32px; margin: 0; line-height: 1; }
+.bag .notes { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.bag .row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+.bag .price { font-family: var(--mono); font-size: 18px; }
+.add { border: 1px solid var(--line); background: transparent; padding: 10px 16px; border-radius: 999px; cursor: pointer; font-size: 14px; transition: background .2s, color .2s; }
+.add:hover, .add.ok { background: var(--cream); color: var(--bg); }
+.order { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 22px; border: 1px dashed var(--line); border-radius: 18px; color: var(--muted); }
+.order a { text-decoration: none; background: var(--caramel); color: #1d1106; padding: 12px 20px; border-radius: 999px; font-weight: 500; }
+
+footer { position: relative; z-index: 6; background: var(--bg); border-top: 1px solid var(--line); }
+footer .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-block: 48px; color: var(--muted); font-size: 15px; }
+footer b { display: block; color: var(--cream); font-weight: 500; margin-bottom: 6px; }
+.credit { text-align: center; font-family: var(--mono); font-size: 12px; color: var(--dim); padding: 0 20px calc(28px + env(safe-area-inset-bottom, 0px)); }
+
+@media (max-width: 860px) {
+  .stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; padding-top: 110px; padding-bottom: 40px; gap: 0; }
+  .copy { height: 170px; order: 1; text-align: center; }
+  .copy article { align-items: center; }
+  .copy h2 { font-size: clamp(40px, 11vw, 60px); }
+  .copy p { font-size: 15px; }
+  .object { order: 2; max-width: min(78vw, 46vh); align-self: center; }
+  .data { order: 3; height: 70px; }
+  .data div { align-items: center; text-align: center; }
+  .data b { font-size: 34px; }
+  .ticks { display: none; }
+  .stream { width: 2px; margin-left: -1px; }
+  .bags { grid-template-columns: 1fr; max-width: 440px; }
+  footer .wrap { grid-template-columns: 1fr; }
+  header nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="demo">Proyecto conceptual de nicoburgueno · Lento es una cafetería ficticia</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio"><i>Lento</i></a>
+    <nav aria-label="Secciones"><a href="#historia">Historia</a><a href="#tienda">Tienda</a><a href="#visita">Visítanos</a></nav>
+  </div>
+</header>
+
+<div class="stream" id="stream" aria-hidden="true"></div>
+
+<section class="hero" id="inicio">
+  <div>
+    <h1>Café <em>lento,</em><br>en una sola toma.</h1>
+    <p>Café de especialidad en la Roma. Baja despacio: así se hace cada taza, del grano a tus manos.</p>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">Baja<span></span></div>
+</section>
+
+<section class="story" id="historia" aria-label="Cómo preparamos tu café">
+  <div class="stage">
+    <div class="copy">
+      <article><span class="n">01 / 05</span><h2>El grano</h2><p>Lo compramos directo a productores de Chiapas y lo tostamos cada semana en nuestro taller.</p></article>
+      <article><span class="n">02 / 05</span><h2>El molido</h2><p>Molemos al momento, nunca antes. El aroma dura minutos y lo queremos en tu taza.</p></article>
+      <article><span class="n">03 / 05</span><h2>El agua</h2><p>Agua filtrada, justo antes de hervir. Más caliente quema el café; más fría lo deja plano.</p></article>
+      <article><span class="n">04 / 05</span><h2>El vertido</h2><p>Vertemos en círculos lentos sobre el cono. Tres minutos y medio que no se apuran.</p></article>
+      <article><span class="n">05 / 05</span><h2>Tu taza</h2><p>Dulce, limpio y con notas de chocolate. Así se toma el café cuando se hace con calma.</p></article>
+    </div>
+
+    <div class="object" aria-hidden="true">
+      <!-- 1. Grano -->
+      <svg viewBox="0 0 400 400"><defs><radialGradient id="g1" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#8a5a35"/><stop offset=".55" stop-color="#4e2f1b"/><stop offset="1" stop-color="#22140b"/></radialGradient></defs>
+        <g class="float"><g transform="rotate(-24 200 200)"><ellipse cx="200" cy="200" rx="104" ry="138" fill="url(#g1)"/><path d="M200 66c-34 50 34 120 0 268" fill="none" stroke="#1a0f08" stroke-width="12" stroke-linecap="round"/><path d="M200 66c-34 50 34 120 0 268" fill="none" stroke="#a87449" stroke-width="2" stroke-linecap="round" opacity=".35" transform="translate(5 0)"/><ellipse cx="160" cy="138" rx="26" ry="44" fill="#fff" opacity=".07"/></g></g>
+      </svg>
+      <!-- 2. Molido -->
+      <svg viewBox="0 0 400 400"><defs><radialGradient id="g2" cx="50%" cy="30%" r="70%"><stop offset="0" stop-color="#6b4427"/><stop offset="1" stop-color="#2a180d"/></radialGradient><pattern id="dots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#1a0f08"/><circle cx="6.5" cy="6" r="1.2" fill="#8a5a35" opacity=".6"/></pattern></defs>
+        <g class="float"><path d="M60 300c30-90 90-170 140-170s110 80 140 170z" fill="url(#g2)"/><path d="M60 300c30-90 90-170 140-170s110 80 140 170z" fill="url(#dots)" opacity=".75"/><ellipse cx="200" cy="302" rx="146" ry="16" fill="#0c0705" opacity=".6"/><circle cx="96" cy="320" r="3" fill="#6b4427"/><circle cx="318" cy="316" r="2.5" fill="#6b4427"/><circle cx="286" cy="330" r="2" fill="#6b4427"/></g>
+      </svg>
+      <!-- 3. Agua -->
+      <svg viewBox="0 0 400 400"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5efe6" stop-opacity=".9"/><stop offset=".5" stop-color="#d9c9b4" stop-opacity=".35"/><stop offset="1" stop-color="#efe6d8" stop-opacity=".7"/></linearGradient></defs>
+        <g class="float"><path d="M200 50C200 50 108 178 108 248a92 92 0 0 0 184 0C292 178 200 50 200 50z" fill="url(#g3)" stroke="#efe6d8" stroke-opacity=".5" stroke-width="2"/><path d="M150 236c0 30 16 52 40 60" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".6"/><circle cx="200" cy="248" r="56" fill="none" stroke="#c8894a" stroke-width="2" stroke-dasharray="4 7"/></g>
+      </svg>
+      <!-- 4. Vertido (cono) -->
+      <svg viewBox="0 0 400 400"><defs><linearGradient id="g4" x1="0" x2="1"><stop offset="0" stop-color="#d9cfc2"/><stop offset=".5" stop-color="#f7f2ea"/><stop offset="1" stop-color="#bdb2a4"/></linearGradient></defs>
+        <rect x="196" y="0" width="8" height="96" fill="#c8894a" rx="4"/>
+        <path d="M92 100h216l-80 150h-56z" fill="url(#g4)"/><path d="M118 100h164l-62 118h-40z" fill="#4e2f1b"/><ellipse cx="200" cy="104" rx="82" ry="10" fill="#2a180d"/>
+        <path d="M150 110l38 104M200 110v104M250 110l-38 104" stroke="#a0958a" stroke-width="2" opacity=".5"/>
+        <rect x="168" y="250" width="64" height="14" rx="4" fill="#cfc4b6"/><rect x="120" y="264" width="160" height="12" rx="6" fill="#e9e1d6"/>
+        <g class="drip"><path d="M200 282c-6 10-9 16-9 21a9 9 0 0 0 18 0c0-5-3-11-9-21z" fill="#6b4427"/></g>
+        <path d="M130 330h140l-10 50h-120z" fill="#2a1c14" opacity=".9"/><ellipse cx="200" cy="330" rx="70" ry="10" fill="#4e2f1b"/>
+      </svg>
+      <!-- 5. Taza -->
+      <svg viewBox="0 0 400 400"><defs><radialGradient id="g5" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#8a5a35"/><stop offset="1" stop-color="#3a2213"/></radialGradient></defs>
+        <g class="steam" fill="none" stroke="#efe6d8" stroke-width="5" stroke-linecap="round"><path d="M170 96c-16-20 16-30 0-52"/><path d="M200 90c-16-20 16-30 0-52"/><path d="M230 96c-16-20 16-30 0-52"/></g>
+        <ellipse cx="200" cy="256" rx="170" ry="96" fill="#e9e1d6"/><ellipse cx="200" cy="250" rx="150" ry="80" fill="#d6ccbe"/>
+        <ellipse cx="200" cy="232" rx="112" ry="72" fill="#f7f2ea"/><ellipse cx="200" cy="232" rx="96" ry="60" fill="url(#g5)"/>
+        <path d="M200 262c-38-26-50-44-34-58 10-9 26-4 34 10 8-14 24-19 34-10 16 14 4 32-34 58z" fill="#efe1cc" opacity=".92"/>
+        <path d="M306 214c34-8 52 10 40 30-8 13-26 16-44 12" fill="none" stroke="#f7f2ea" stroke-width="14" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="data" aria-hidden="true">
+      <div><b>1,400 m</b><span>Altura · Chiapas</span></div>
+      <div><b>18 g</b><span>Molido medio fino</span></div>
+      <div><b>92 °C</b><span>Temperatura del agua</span></div>
+      <div><b>3:29</b><span>Minutos de vertido</span></div>
+      <div><b>240 ml</b><span>Tu taza</span></div>
+    </div>
+    <div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="shop" id="tienda">
+  <div class="wrap">
+    <div class="shop-head">
+      <h2>Llévate el <em>proceso</em> a casa</h2>
+      <p>Tostado esta semana. Te lo molemos para tu método o te lo damos en grano.</p>
+    </div>
+    <div class="bags">
+      <article class="bag" style="--glow: rgba(200, 137, 74, .35)">
+        <div class="pic"><svg viewBox="0 0 200 240"><path d="M40 40h120l14 190H26z" fill="#c8894a"/><path d="M40 40h120v-14H40z" fill="#a86e35"/><rect x="58" y="96" width="84" height="90" rx="6" fill="#efe6d8"/><text x="100" y="134" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="30" fill="#2a180d">Lento</text><text x="100" y="160" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="#6b4427" letter-spacing="2">CHIAPAS</text></svg></div>
+        <h3>Chiapas</h3><span class="notes">Chocolate · nuez · panela</span>
+        <div class="row"><span class="price">$240 · 250 g</span><button class="add" type="button" data-name="Chiapas 250 g">Agregar</button></div>
+      </article>
+      <article class="bag" style="--glow: rgba(120, 150, 110, .3)">
+        <div class="pic"><svg viewBox="0 0 200 240"><path d="M40 40h120l14 190H26z" fill="#5f7653"/><path d="M40 40h120v-14H40z" fill="#4a5e40"/><rect x="58" y="96" width="84" height="90" rx="6" fill="#efe6d8"/><text x="100" y="134" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="30" fill="#2a180d">Lento</text><text x="100" y="160" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="#4a5e40" letter-spacing="2">VERACRUZ</text></svg></div>
+        <h3>Veracruz</h3><span class="notes">Mandarina · miel · cacao</span>
+        <div class="row"><span class="price">$260 · 250 g</span><button class="add" type="button" data-name="Veracruz 250 g">Agregar</button></div>
+      </article>
+      <article class="bag" style="--glow: rgba(160, 90, 90, .3)">
+        <div class="pic"><svg viewBox="0 0 200 240"><path d="M40 40h120l14 190H26z" fill="#7b3b36"/><path d="M40 40h120v-14H40z" fill="#622d29"/><rect x="58" y="96" width="84" height="90" rx="6" fill="#efe6d8"/><text x="100" y="134" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="30" fill="#2a180d">Lento</text><text x="100" y="160" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="#7b3b36" letter-spacing="2">OAXACA</text></svg></div>
+        <h3>Oaxaca</h3><span class="notes">Frutos rojos · vino · azúcar morena</span>
+        <div class="row"><span class="price">$280 · 250 g</span><button class="add" type="button" data-name="Oaxaca 250 g">Agregar</button></div>
+      </article>
+    </div>
+    <div class="order"><span id="orderText">Elige tus cafés y pídelos por WhatsApp. Entregamos en la Roma, Condesa y Juárez.</span><a id="orderBtn" href="https://wa.me/525500000000" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>
+  </div>
+</section>
+
+<footer id="visita">
+  <div class="wrap">
+    <div><b>Dirección</b>Calle de ejemplo 80, Roma Norte, CDMX</div>
+    <div><b>Horario</b>Lunes a domingo, 8:00 a 20:00</div>
+    <div><b>WhatsApp</b><span style="font-family:var(--mono)">55 0000 0000</span></div>
+  </div>
+  <p class="credit">Diseño y desarrollo: nicoburgueno · Proyecto conceptual</p>
+</footer>
+
+<script>
+// Historia: progreso del scroll dentro de la sección, cada paso se funde con el siguiente en su último 20 %
+(function () {
+  const story = document.querySelector(".story");
+  const scenes = document.querySelectorAll(".object svg");
+  const copies = document.querySelectorAll(".copy article");
+  const datas = document.querySelectorAll(".data div");
+  const ticks = document.querySelectorAll(".ticks i");
+  const stream = document.getElementById("stream");
+  const N = scenes.length;
+  const fade = innerWidth < 860 ? 0.1 : 0.2;
+  const set = (i, v) => {
+    scenes[i].style.opacity = v;
+    scenes[i].style.transform = `scale(${0.9 + 0.1 * v})`;
+    copies[i].style.opacity = v;
+    copies[i].style.transform = `translateY(${(1 - v) * 16}px)`;
+    datas[i].style.opacity = v;
+  };
+  function update() {
+    const r = story.getBoundingClientRect();
+    const total = story.offsetHeight - innerHeight;
+    const p = Math.min(1, Math.max(0, -r.top / total));
+    stream.style.transform = `scaleY(${Math.min(1, Math.max(0, (scrollY / (story.offsetTop + total)) ))})`;
+    const x = p * N;
+    for (let i = 0; i < N; i++) {
+      const local = x - i;
+      let v = 0;
+      if (local >= 0 && local <= 1) v = 1;
+      if (local > 1 - fade && local <= 1 && i < N - 1) v = (1 - local) / fade;
+      if (local < 0 && local > -fade) v = 1 + local / fade;
+      if (i === 0 && local < 0) v = 1;
+      if (i === N - 1 && local > 1) v = 1;
+      set(i, Math.max(0, Math.min(1, v)));
+      ticks[i].classList.toggle("on", Math.min(N - 1, Math.floor(x)) === i);
+    }
+  }
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  update();
+})();
+
+// Pedido: arma la lista y la manda por WhatsApp
+(function () {
+  const cart = [];
+  const text = document.getElementById("orderText"), btn = document.getElementById("orderBtn");
+  document.querySelectorAll(".add").forEach((b) => b.addEventListener("click", () => {
+    cart.push(b.dataset.name);
+    b.classList.add("ok"); b.textContent = "Agregado ✓";
+    setTimeout(() => { b.classList.remove("ok"); b.textContent = "Agregar"; }, 1400);
+    text.textContent = `Tu pedido: ${cart.join(", ")}`;
+    btn.href = `https://wa.me/525500000000?text=${encodeURIComponent("Hola, quiero pedir: " + cart.join(", "))}`;
+  }));
+})();
+</script>
+</body>
+</html>

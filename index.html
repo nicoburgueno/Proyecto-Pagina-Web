@@ -125,6 +125,11 @@ h2 { font-weight: 500; font-size: clamp(40px, 6.4vw, 88px); line-height: .95; le
 .cs-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
 .cs-foot .stack span { font-size: 11px; padding: 5px 9px; }
 .cs-foot .btn { padding: 11px 16px; font-size: 14px; }
+.more { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 20px 24px; border: 1px solid var(--line); border-radius: 20px; }
+.more-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.more-links a { text-decoration: none; font-size: 14px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); transition: color .2s, border-color .2s; }
+.more-links a:hover { color: var(--ink); border-color: #3a3a3a; }
+.more-links span { font-family: var(--mono); }
 .stage { position: relative; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); aspect-ratio: 4 / 5; max-width: 100%; display: grid; place-items: center; overflow: hidden; transition: border-color .3s; }
 .stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, var(--tint, rgba(255, 255, 255, .08)), transparent 65%); }
 .phone { position: relative; width: 58%; aspect-ratio: 390 / 820; border-radius: 30px; background: #000; padding: 7px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), 0 0 0 1px #2c2c2c; transition: transform .6s var(--ease); }
@@ -395,45 +400,53 @@ html.intro { overflow: hidden; }
   <div class="wrap">
     <div class="sec-head reveal">
       <div><span class="label">Proyectos · 03</span><h2>Trabajo <span class="serif">seleccionado</span></h2></div>
-      <p>Proyectos conceptuales que funcionan de verdad. Ábrelos en tu celular, agenda una cita o reserva una mesa.</p>
+      <p>Proyectos conceptuales que funcionan de verdad. Ábrelos, muévete por ellos y pruébalos en tu celular.</p>
     </div>
     <div class="cases">
-      <article class="cs reveal" style="--tint: rgba(60, 194, 173, .3)">
-        <a class="cs-visual" href="demos/dental/" aria-label="Abrir proyecto Clínica Dental Nácar">
-          <div class="stage"><span class="cs-num">01</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/dental/" title="Vista previa: clínica dental" loading="lazy" tabindex="-1"></iframe></div></div></div>
+      <article class="cs reveal" style="--tint: rgba(255, 106, 43, .32)">
+        <a class="cs-visual" href="demos/humo/" aria-label="Abrir proyecto Humo">
+          <div class="stage"><span class="cs-num">01</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/humo/" title="Vista previa: restaurante Humo" loading="lazy" tabindex="-1"></iframe></div></div></div>
         </a>
         <div class="cs-info">
-          <span class="label">Salud · Roma Norte</span>
-          <h3>Clínica Dental <span class="serif">Nácar</span></h3>
-          <p>Muchos pacientes se pierden porque nadie contesta el teléfono. Esta página les deja agendar en 30 segundos: eligen tratamiento, día y hora, y la cita llega lista por WhatsApp.</p>
-          <ul class="feat"><li>Agenda con horarios libres en vivo</li><li>Precios claros por tratamiento</li><li>Promoción con cuenta regresiva</li><li>Guía de color para blanqueamiento</li></ul>
-          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/dental/">Abrir proyecto <span class="arr">↗</span></a></div>
+          <span class="label">Restaurante · Roma Norte</span>
+          <h3>Hu<span class="serif">mo</span></h3>
+          <p>Cocina al carbón con humo vivo y chispas en la portada. La carta se lee como bitácora de fuego: horas, grados y leña de cada plato.</p>
+          <ul class="feat"><li>Humo y brasas animados en tiempo real</li><li>Carta con tiempos y temperaturas</li><li>Menú degustación de 7 tiempos</li><li>Reservas por zona: salón, terraza o barra</li></ul>
+          <div class="cs-foot"><div class="stack"><span>Canvas</span><span>CSS</span><span>JS</span></div><a class="btn solid" href="demos/humo/">Abrir proyecto <span class="arr">↗</span></a></div>
         </div>
       </article>
-      <article class="cs reveal" style="--tint: rgba(240, 168, 48, .3)">
-        <a class="cs-visual" href="demos/restaurante/" aria-label="Abrir proyecto Casa Nopal">
-          <div class="stage"><span class="cs-num">02</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/restaurante/" title="Vista previa: restaurante" loading="lazy" tabindex="-1"></iframe></div></div></div>
+      <article class="cs reveal" style="--tint: rgba(226, 70, 60, .34)">
+        <a class="cs-visual" href="demos/tienda/" aria-label="Abrir proyecto Tierra Dulce">
+          <div class="stage"><span class="cs-num">02</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/tienda/" title="Vista previa: tienda Tierra Dulce" loading="lazy" tabindex="-1"></iframe></div></div></div>
         </a>
         <div class="cs-info">
-          <span class="label">Restaurante · Condesa</span>
-          <h3>Casa <span class="serif">Nopal</span></h3>
-          <p>Un restaurante con comida corrida necesita que la gente vea el menú del día antes de salir de la oficina. El menú cambia solo según el día y las reservas llegan por WhatsApp.</p>
-          <ul class="feat"><li>Menú del día automático</li><li>"Abierto ahora" en tiempo real</li><li>Reservas con personas, hora y ocasión</li><li>Botones de Rappi, Uber Eats y DiDi</li></ul>
-          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/restaurante/">Abrir proyecto <span class="arr">↗</span></a></div>
+          <span class="label">Tienda en línea · Oaxaca</span>
+          <h3>Tierra <span class="serif">Dulce</span></h3>
+          <p>Los frascos viven en una rueda gigante. Al cambiar de mermelada gira la rueda y todo el fondo se tiñe del color de la fruta.</p>
+          <ul class="feat"><li>Rueda de productos con giro infinito</li><li>Color de fondo animado por producto</li><li>Carrito con cantidades y total</li><li>Pedido completo por WhatsApp</li></ul>
+          <div class="cs-foot"><div class="stack"><span>CSS @property</span><span>SVG</span><span>JS</span></div><a class="btn solid" href="demos/tienda/">Abrir proyecto <span class="arr">↗</span></a></div>
         </div>
       </article>
-      <article class="cs reveal" style="--tint: rgba(242, 183, 5, .24)">
-        <a class="cs-visual" href="demos/taller/" aria-label="Abrir proyecto Taller Hermanos Ríos">
-          <div class="stage"><span class="cs-num">03</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/taller/" title="Vista previa: taller mecánico" loading="lazy" tabindex="-1"></iframe></div></div></div>
+      <article class="cs reveal" style="--tint: rgba(200, 137, 74, .34)">
+        <a class="cs-visual" href="demos/cafe/" aria-label="Abrir proyecto Lento Café">
+          <div class="stage"><span class="cs-num">03</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/cafe/" title="Vista previa: Lento Café" loading="lazy" tabindex="-1"></iframe></div></div></div>
         </a>
         <div class="cs-info">
-          <span class="label">Automotriz · Coyoacán</span>
-          <h3>Taller Hermanos <span class="serif">Ríos</span></h3>
-          <p>Los clientes de un taller desconfían de los precios. Esta página muestra cada servicio con su precio e intervalo en kilómetros, y les dice cuándo les toca verificar.</p>
-          <ul class="feat"><li>Servicios con precio desde</li><li>Calendario de verificación por engomado</li><li>Agenda por WhatsApp</li><li>Diseño con franja de seguridad</li></ul>
-          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/taller/">Abrir proyecto <span class="arr">↗</span></a></div>
+          <span class="label">Cafetería · Roma Norte</span>
+          <h3>Lento <span class="serif">Café</span></h3>
+          <p>Una página que se siente como una sola toma. Al bajar, el café pasa del grano a tu taza sin cortes, con un hilo que cae según el scroll.</p>
+          <ul class="feat"><li>Historia en scroll con transiciones</li><li>Un dato por paso: 92 °C, 18 g, 3:29</li><li>Hilo de café ligado al scroll</li><li>Tienda de café al final del recorrido</li></ul>
+          <div class="cs-foot"><div class="stack"><span>Scroll</span><span>SVG</span><span>JS</span></div><a class="btn solid" href="demos/cafe/">Abrir proyecto <span class="arr">↗</span></a></div>
         </div>
       </article>
+    </div>
+    <div class="more reveal">
+      <span class="label">Más demos para negocios locales</span>
+      <div class="more-links">
+        <a href="demos/dental/">Clínica dental <span>↗</span></a>
+        <a href="demos/restaurante/">Restaurante con comida corrida <span>↗</span></a>
+        <a href="demos/taller/">Taller mecánico <span>↗</span></a>
+      </div>
     </div>
   </div>
 </section>
