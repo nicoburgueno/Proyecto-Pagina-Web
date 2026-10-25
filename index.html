@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://nicoburgueno.github.io/Proyecto-Pagina-Web/assets/logo/nicoburgueno-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@500&display=swap">
 <style>
 /* Concepto: estudio nocturno. Tipografía gigante que mezcla Geist con Instrument Serif en cursiva,
    grano y brillos suaves, trabajos dentro de celulares, tarjetas bento. Rojo solo en el cursor del logo. */
@@ -96,9 +96,11 @@ h1 .w > span { display: inline-block; }
 /* Cinta */
 .marquee { border-block: 1px solid var(--line); overflow: hidden; padding-block: 22px; }
 .track { display: flex; gap: 48px; width: max-content; animation: slide 32s linear infinite; }
-.track span { font-size: clamp(28px, 4vw, 52px); letter-spacing: -.04em; white-space: nowrap; display: flex; align-items: center; gap: 48px; color: var(--dim); }
-.track span b { color: var(--ink); font-weight: 400; }
-.track span::after { content: "✳"; font-size: .5em; color: var(--muted); }
+.track > span { font-family: var(--mono); font-size: clamp(22px, 3.2vw, 40px); letter-spacing: -.04em; white-space: nowrap; display: flex; align-items: center; gap: 48px; color: var(--muted); }
+.track > span i { font-style: normal; color: var(--dim); margin-right: .4em; }
+.track > span b { color: var(--ink); font-weight: 500; }
+.track > span em { font-style: normal; color: var(--ok); margin-left: .35em; }
+.track > span::after { content: "✳"; font-family: var(--sans); font-size: .5em; color: var(--dim); }
 @keyframes slide { to { transform: translateX(-50%) } }
 
 section { padding-block: 120px; }
@@ -106,20 +108,28 @@ section { padding-block: 120px; }
 h2 { font-weight: 500; font-size: clamp(40px, 6.4vw, 88px); line-height: .95; letter-spacing: -.05em; margin: 12px 0 0; text-wrap: balance; }
 .sec-head p { max-width: 38ch; color: var(--muted); margin: 0; }
 
-/* Trabajos en celulares */
-.work { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.case { text-decoration: none; display: flex; flex-direction: column; gap: 18px; }
+/* Proyectos como casos de estudio */
+.cases { display: grid; gap: 28px; }
+.cs { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding: 28px; border: 1px solid var(--line); border-radius: 32px; background: linear-gradient(180deg, var(--surface), var(--bg)); }
+.cs:nth-child(even) .cs-visual { order: 2; }
+.cs-visual { display: block; text-decoration: none; }
+.cs-visual .stage { border-radius: 22px; }
+.cs-num { position: absolute; top: 18px; left: 22px; font-family: var(--serif); font-style: italic; font-size: 48px; line-height: 1; color: var(--dim); z-index: 1; }
+.cs-visual:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
+.cs-visual:hover .stage { border-color: #3a3a3a; }
+.cs-info { display: flex; flex-direction: column; gap: 18px; min-width: 0; padding-right: 12px; }
+.cs-info h3 { margin: 0; font-weight: 500; font-size: clamp(34px, 4.2vw, 56px); line-height: 1; letter-spacing: -.05em; }
+.cs-info > p { margin: 0; color: var(--muted); font-size: 17px; max-width: 48ch; }
+.feat { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; border-top: 1px solid var(--line); padding-top: 18px; font-size: 15px; }
+.feat li { display: grid; grid-template-columns: 18px 1fr; gap: 6px; }
+.feat li::before { content: "→"; font-family: var(--mono); color: var(--dim); }
+.cs-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
 .stage { position: relative; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); aspect-ratio: 4 / 5; max-width: 100%; display: grid; place-items: center; overflow: hidden; transition: border-color .3s; }
 .stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, var(--tint, rgba(255, 255, 255, .08)), transparent 65%); }
-.case:hover .stage { border-color: #3a3a3a; }
 .phone { position: relative; width: 58%; aspect-ratio: 390 / 820; border-radius: 30px; background: #000; padding: 7px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), 0 0 0 1px #2c2c2c; transition: transform .6s var(--ease); }
-.case:hover .phone { transform: translateY(-10px) rotate(-1.5deg); }
 .screen { position: relative; width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: #111; }
 .screen iframe { position: absolute; top: 0; left: 0; width: 390px; height: 820px; border: 0; transform-origin: 0 0; pointer-events: none; }
 .notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 30%; height: 14px; border-radius: 999px; background: #000; z-index: 2; }
-.case-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.case-meta h3 { margin: 0; font-weight: 500; font-size: 22px; letter-spacing: -.03em; }
-.case-meta span { color: var(--muted); font-size: 14px; }
 
 /* Bento */
 .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
@@ -234,12 +244,55 @@ footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
 footer nav a { text-decoration: none; }
 footer nav a:hover { color: var(--ink); }
 
+/* Intro: cuaderno que se abre (solo con JS, una vez por visita) */
+#intro { display: none; }
+.js #intro { position: fixed; inset: 0; z-index: 200; background: var(--bg); display: grid; place-items: center; perspective: 1800px; cursor: pointer; animation: introOut .7s var(--ease) 3s forwards; }
+html.intro { overflow: hidden; }
+.intro h1 .w > span { animation-play-state: paused !important; }
+@keyframes introOut { to { opacity: 0; visibility: hidden; transform: scale(1.08); } }
+.book { position: relative; width: min(290px, 42vw); aspect-ratio: 3 / 4; transform-style: preserve-3d; animation: bookMove 2.2s var(--ease) forwards; }
+.book::after { content: ""; position: absolute; left: -100%; right: 0; bottom: -28px; height: 24px; background: radial-gradient(ellipse at center, rgba(0, 0, 0, .7), transparent 70%); opacity: 0; animation: shadowIn 1s var(--ease) .9s forwards; }
+@keyframes shadowIn { to { opacity: 1; } }
+@keyframes bookMove {
+  0% { opacity: 0; transform: translateY(24px) scale(.94); }
+  22% { opacity: 1; transform: none; }
+  34% { transform: none; }
+  70%, 100% { transform: translateX(50%); }
+}
+.paper { position: absolute; inset: 0; border-radius: 3px 12px 12px 3px; padding-top: 34px; overflow: hidden;
+  background:
+    linear-gradient(90deg, transparent 34px, rgba(229, 36, 43, .55) 34px 36px, transparent 36px),
+    repeating-linear-gradient(180deg, #efece4 0 27px, #cdd5df 27px 28px);
+  box-shadow: inset 10px 0 18px -10px rgba(0, 0, 0, .35); }
+.hw { font-family: "Caveat", "Segoe Print", cursive; font-weight: 500; color: #23262c; font-size: clamp(15px, 2.1vw, 23px); line-height: 28px; height: 28px; margin: 0; padding-left: 46px; white-space: nowrap; clip-path: inset(0 100% 0 0); animation: write .55s steps(16) forwards; }
+.hw.l1 { color: #7a7d84; animation-delay: 1.45s; }
+.hw.l2 { animation-delay: 1.8s; }
+.hw.l3 { animation-delay: 2.15s; }
+.hw.l4 { animation-delay: 2.45s; }
+@keyframes write { to { clip-path: inset(0 0 0 0); } }
+.cover { position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; animation: openCover 1.15s cubic-bezier(.6, .05, .25, 1) .75s forwards; }
+@keyframes openCover { to { transform: rotateY(-178deg); } }
+.front, .back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.front { border-radius: 3px 12px 12px 3px; background: radial-gradient(circle at 30% 20%, #222, #121212 70%); border: 1px solid #2a2a2a; box-shadow: inset 8px 0 0 #0c0c0c, 0 30px 60px -20px rgba(0, 0, 0, .8); padding: 26px 26px 22px 30px; display: flex; flex-direction: column; justify-content: space-between; }
+.front::after { content: ""; position: absolute; top: 0; bottom: 0; right: 22px; width: 7px; background: #2b2b2b; box-shadow: inset 0 0 0 1px #333; }
+.front svg { width: 62%; height: auto; }
+.cover-label { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.cover-name { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--ink); }
+.cover-name span { color: var(--muted); font-weight: 400; }
+.back { transform: rotateY(180deg); border-radius: 12px 3px 3px 12px; background: #e6e2d9; box-shadow: inset -10px 0 18px -10px rgba(0, 0, 0, .3); }
+.skip { position: absolute; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); border: 1px solid var(--line); background: transparent; color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 8px 14px; border-radius: 999px; cursor: pointer; }
+.skip:hover { color: var(--ink); }
+
 /* Aparición al hacer scroll (solo con JS; sin JS todo se ve) */
 .js .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
 .js .reveal.in { opacity: 1; transform: none; }
 
 @media (max-width: 960px) {
-  .work, .plans { grid-template-columns: 1fr; max-width: 520px; }
+  .plans { grid-template-columns: 1fr; max-width: 520px; }
+  .cs { grid-template-columns: 1fr; gap: 28px; padding: 18px; }
+  .cs:nth-child(even) .cs-visual { order: 0; }
+  .cs-visual .stage { max-width: 440px; margin: 0 auto; }
+  .cs-info { padding: 0 6px 8px; }
   .bento { grid-template-columns: 1fr 1fr; }
   .t1 { grid-column: span 2; }
   .t2, .t3, .t4, .t5 { grid-column: span 1; }
@@ -257,6 +310,7 @@ footer nav a:hover { color: var(--ink); }
   .hero { padding-block: 120px 64px; }
   .hero-foot p { font-size: 16px; }
   .col, .plan, form.brief { padding: 24px; }
+  .feat { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -266,7 +320,39 @@ footer nav a:hover { color: var(--ink); }
 </style>
 </head>
 <body>
-<script>document.documentElement.classList.add("js")</script>
+<script>document.documentElement.classList.add("js", "intro")</script>
+
+<div id="intro">
+  <div class="book" aria-hidden="true">
+    <div class="paper">
+      <p class="hw l1">portafolio · 2026</p>
+      <p class="hw l2">&gt; nicoburgueno</p>
+      <p class="hw l3">páginas web que</p>
+      <p class="hw l4">llenan tu agenda ✓</p>
+    </div>
+    <div class="cover">
+      <div class="front">
+        <span class="cover-label">Portafolio · 2026</span>
+        <svg viewBox="10 42 84 38"><text x="14" y="72" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" font-size="34" fill="#f1efe9" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect x="76" y="47" width="14" height="30" fill="#e5242b"/></svg>
+        <span class="cover-name"><span>nico</span>burgueno</span>
+      </div>
+      <div class="back"></div>
+    </div>
+  </div>
+  <button type="button" class="skip" id="skipIntro">Saltar intro</button>
+</div>
+<script>
+(function () {
+  const intro = document.getElementById("intro");
+  let seen = false;
+  try { seen = sessionStorage.getItem("nbIntro") === "1"; sessionStorage.setItem("nbIntro", "1"); } catch (e) {}
+  const done = () => { if (intro.isConnected) intro.remove(); document.documentElement.classList.remove("intro"); };
+  if (seen || matchMedia("(prefers-reduced-motion: reduce)").matches) { done(); return; }
+  intro.addEventListener("animationend", (e) => { if (e.animationName === "introOut") done(); });
+  intro.addEventListener("click", done);
+  setTimeout(done, 5000);
+})();
+</script>
 
 <nav class="nav" aria-label="Principal">
   <a class="logo" href="#inicio" aria-label="nicoburgueno, inicio">
@@ -302,31 +388,52 @@ footer nav a:hover { color: var(--ink); }
 </header>
 
 <div class="marquee" aria-hidden="true">
-  <div class="track">
-    <span><b>Diseño</b></span><span class="serif">a la medida</span><span><b>Citas por WhatsApp</b></span><span class="serif">Google Maps</span><span><b>Hecho en CDMX</b></span><span class="serif">listo en 7 días</span>
-    <span><b>Diseño</b></span><span class="serif">a la medida</span><span><b>Citas por WhatsApp</b></span><span class="serif">Google Maps</span><span><b>Hecho en CDMX</b></span><span class="serif">listo en 7 días</span>
-  </div>
+  <div class="track" id="track"></div>
 </div>
 
 <section id="trabajos">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><span class="label">Trabajos · 03</span><h2>Ejemplos <span class="serif">en vivo</span></h2></div>
-      <p>Páginas que funcionan de verdad. Ábrelas en tu celular, agenda una cita o reserva una mesa.</p>
+      <div><span class="label">Proyectos · 03</span><h2>Trabajo <span class="serif">seleccionado</span></h2></div>
+      <p>Proyectos conceptuales que funcionan de verdad. Ábrelos en tu celular, agenda una cita o reserva una mesa.</p>
     </div>
-    <div class="work">
-      <a class="case reveal" href="demos/dental/" style="--tint: rgba(60, 194, 173, .28)">
-        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/dental/" title="Vista previa: clínica dental" loading="lazy" tabindex="-1"></iframe></div></div></div>
-        <div class="case-meta"><h3>Clínica dental</h3><span>Agenda en línea</span></div>
-      </a>
-      <a class="case reveal" href="demos/restaurante/" style="--tint: rgba(240, 168, 48, .26)">
-        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/restaurante/" title="Vista previa: restaurante" loading="lazy" tabindex="-1"></iframe></div></div></div>
-        <div class="case-meta"><h3>Restaurante</h3><span>Menú del día y reservas</span></div>
-      </a>
-      <a class="case reveal" href="demos/taller/" style="--tint: rgba(242, 183, 5, .2)">
-        <div class="stage"><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/taller/" title="Vista previa: taller mecánico" loading="lazy" tabindex="-1"></iframe></div></div></div>
-        <div class="case-meta"><h3>Taller mecánico</h3><span>Servicios y verificación</span></div>
-      </a>
+    <div class="cases">
+      <article class="cs reveal" style="--tint: rgba(60, 194, 173, .3)">
+        <a class="cs-visual" href="demos/dental/" aria-label="Abrir proyecto Clínica Dental Nácar">
+          <div class="stage"><span class="cs-num">01</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/dental/" title="Vista previa: clínica dental" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        </a>
+        <div class="cs-info">
+          <span class="label">Salud · Roma Norte</span>
+          <h3>Clínica Dental <span class="serif">Nácar</span></h3>
+          <p>Muchos pacientes se pierden porque nadie contesta el teléfono. Esta página les deja agendar en 30 segundos: eligen tratamiento, día y hora, y la cita llega lista por WhatsApp.</p>
+          <ul class="feat"><li>Agenda con horarios libres en vivo</li><li>Precios claros por tratamiento</li><li>Promoción con cuenta regresiva</li><li>Guía de color para blanqueamiento</li></ul>
+          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/dental/">Abrir proyecto <span class="arr">↗</span></a></div>
+        </div>
+      </article>
+      <article class="cs reveal" style="--tint: rgba(240, 168, 48, .3)">
+        <a class="cs-visual" href="demos/restaurante/" aria-label="Abrir proyecto Casa Nopal">
+          <div class="stage"><span class="cs-num">02</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/restaurante/" title="Vista previa: restaurante" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        </a>
+        <div class="cs-info">
+          <span class="label">Restaurante · Condesa</span>
+          <h3>Casa <span class="serif">Nopal</span></h3>
+          <p>Un restaurante con comida corrida necesita que la gente vea el menú del día antes de salir de la oficina. El menú cambia solo según el día y las reservas llegan por WhatsApp.</p>
+          <ul class="feat"><li>Menú del día automático</li><li>"Abierto ahora" en tiempo real</li><li>Reservas con personas, hora y ocasión</li><li>Botones de Rappi, Uber Eats y DiDi</li></ul>
+          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/restaurante/">Abrir proyecto <span class="arr">↗</span></a></div>
+        </div>
+      </article>
+      <article class="cs reveal" style="--tint: rgba(242, 183, 5, .24)">
+        <a class="cs-visual" href="demos/taller/" aria-label="Abrir proyecto Taller Hermanos Ríos">
+          <div class="stage"><span class="cs-num">03</span><div class="phone"><div class="notch"></div><div class="screen"><iframe src="demos/taller/" title="Vista previa: taller mecánico" loading="lazy" tabindex="-1"></iframe></div></div></div>
+        </a>
+        <div class="cs-info">
+          <span class="label">Automotriz · Coyoacán</span>
+          <h3>Taller Hermanos <span class="serif">Ríos</span></h3>
+          <p>Los clientes de un taller desconfían de los precios. Esta página muestra cada servicio con su precio e intervalo en kilómetros, y les dice cuándo les toca verificar.</p>
+          <ul class="feat"><li>Servicios con precio desde</li><li>Calendario de verificación por engomado</li><li>Agenda por WhatsApp</li><li>Diseño con franja de seguridad</li></ul>
+          <div class="cs-foot"><div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><a class="btn solid" href="demos/taller/">Abrir proyecto <span class="arr">↗</span></a></div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -542,6 +649,17 @@ footer nav a:hover { color: var(--ink); }
 
 <script>
 const WA = "525530301216";
+
+// Cinta tipo terminal con los rubros (se duplica para que el giro sea continuo)
+(function () {
+  const pasos = ["diseñando", "programando", "publicando", "página lista"];
+  const rubros = ["dentistas", "restaurantes", "talleres", "estéticas", "consultorios", "cafeterías", "gimnasios", "veterinarias"];
+  const html = rubros.map((r, k) => {
+    const p = pasos[k % pasos.length];
+    return `<span><i>&gt;</i>${p} para <b>${r}</b>${p === "página lista" ? "<em>✓</em>" : "…"}</span>`;
+  }).join("");
+  document.getElementById("track").innerHTML = html + html;
+})();
 
 // Titular: cada palabra sube con un pequeño retraso
 (function () {
