@@ -1,6 +1,6 @@
-# Pixel Taller
+# Proyecto Página Web
 
-Portafolio y páginas de demostración para vender sitios web a negocios locales en CDMX.
+Portafolio (marca Pixel Taller) y páginas de demostración para vender sitios web a negocios locales en CDMX.
 
 ## Estructura
 
