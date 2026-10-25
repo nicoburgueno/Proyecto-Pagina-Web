@@ -1,11 +1,12 @@
 # Proyecto Página Web
 
-Portafolio (marca Pixel Taller) y páginas de demostración para vender sitios web a negocios locales en CDMX.
+Portafolio de nicoburgueno y páginas de demostración para vender sitios web a negocios locales en CDMX.
 
 ## Estructura
 
 ```
-index.html               Portafolio de Pixel Taller (página principal)
+assets/logo/              Logo: SVG (web), PNG para perfil de WhatsApp e Instagram, favicon
+index.html               Portafolio de nicoburgueno (página principal)
 demos/dental/            Demo de clínica dental: agenda por WhatsApp, precios, guía de blanqueamiento
 demos/restaurante/       Demo de restaurante: menú del día automático, carta, reservaciones
 demos/taller/            Demo de taller mecánico: servicios, calendario de verificación
