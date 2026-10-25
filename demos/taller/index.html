@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Taller Hermanos Ríos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Taller mecánico en Coyoacán, CDMX. Afinación, frenos, suspensión y pre-verificación.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: banda de taller (franja de seguridad) + hero tipográfico + lista de servicios tipo orden de trabajo + verificador de engomado */
+:root {
+  --bg: #f3f4f1;
+  --surface: #ffffff;
+  --ink: #16191d;
+  --muted: #5b6168;
+  --line: #d8dbd6;
+  --accent: #f2b705;
+  --accent-ink: #16191d;
+  --steel: #263340;
+  --steel-ink: #f3f4f1;
+  --display: "Saira Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121519; --surface: #1b2026; --ink: #eceee9; --muted: #a2a8ae; --line: #2e353d;
+    --accent: #f2b705; --accent-ink: #16191d; --steel: #0b0e11; --steel-ink: #eceee9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121519; --surface: #1b2026; --ink: #eceee9; --muted: #a2a8ae; --line: #2e353d;
+  --accent: #f2b705; --accent-ink: #16191d; --steel: #0b0e11; --steel-ink: #eceee9; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1; text-transform: uppercase; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.demo { background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 600; text-align: center; }
+.demo .wrap { padding-block: 6px; }
+
+.hazard { height: 10px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, var(--steel) 14px 28px); }
+
+header.top { background: var(--steel); color: var(--steel-ink); }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.logo { font-family: var(--display); font-weight: 800; font-size: 24px; letter-spacing: .02em; text-transform: uppercase; }
+.logo span { color: var(--accent); }
+nav { display: flex; gap: 20px; font-size: 14px; flex-wrap: wrap; }
+nav a { text-decoration: none; opacity: .85; }
+nav a:hover { opacity: 1; text-decoration: underline; }
+
+.hero { background: var(--steel); color: var(--steel-ink); }
+.hero .wrap { padding-block: 48px 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; }
+.hero h1 { font-size: clamp(48px, 9vw, 104px); font-weight: 800; letter-spacing: -.01em; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { max-width: 46ch; color: var(--steel-ink); opacity: .85; margin: 18px 0 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; font-weight: 600; text-decoration: none; border: 2px solid var(--accent); border-radius: 4px; cursor: pointer; font: inherit; font-weight: 600; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--steel-ink); }
+.facts { display: grid; gap: 1px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.12); }
+.facts div { background: var(--steel); padding: 14px 16px; display: flex; justify-content: space-between; gap: 12px; }
+.facts dt { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; opacity: .7; }
+.facts dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+
+section { padding-block: 64px; }
+.eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 10px; }
+h2 { font-size: clamp(34px, 5vw, 52px); font-weight: 800; margin-bottom: 28px; }
+
+.order { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.order-head, .row { display: grid; grid-template-columns: 1fr 150px 130px; gap: 16px; padding: 14px 20px; align-items: baseline; }
+.order-head { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 2px solid var(--ink); }
+.row { border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row h3 { font-size: 22px; font-weight: 600; }
+.row p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.row .km, .row .price { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 14px; }
+.row .price { text-align: right; font-size: 16px; }
+.note { font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.verif { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 24px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 20px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); }
+.result { font-size: 18px; min-height: 3.2em; }
+.result strong { font-family: var(--display); font-size: 26px; text-transform: uppercase; }
+
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; counter-increment: s; }
+.steps li::before { content: counter(s); font-family: var(--display); font-weight: 800; font-size: 28px; width: 44px; height: 44px; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); border-radius: 4px; }
+.steps b { display: block; }
+.steps span { color: var(--muted); font-size: 15px; }
+
+.contact { background: var(--steel); color: var(--steel-ink); }
+.contact .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.contact dt { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; opacity: .7; margin-bottom: 6px; }
+.contact dd { margin: 0; font-size: 18px; }
+.contact .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.copy { margin-top: 8px; background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 4px 10px; border-radius: 4px; font: inherit; font-size: 13px; cursor: pointer; }
+footer { background: var(--steel); color: var(--steel-ink); opacity: .9; font-size: 13px; }
+footer .wrap { padding-block: 20px; border-top: 1px solid rgba(255,255,255,.12); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .hero .wrap, .split, .contact .grid { grid-template-columns: 1fr; }
+  .order-head { display: none; }
+  .row { grid-template-columns: 1fr auto; }
+  .row .km { grid-column: 1; grid-row: 2; color: var(--muted); }
+  .row .price { grid-column: 2; grid-row: 1; }
+  nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="demo"><div class="wrap">Sitio de demostración hecho por Pixel Taller · El negocio, los datos y el teléfono son de ejemplo</div></div>
+<div class="hazard"></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo">Hermanos <span>Ríos</span></div>
+    <nav aria-label="Secciones">
+      <a href="#servicios">Servicios</a>
+      <a href="#verificacion">Verificación</a>
+      <a href="#como">Cómo trabajamos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" style="color:var(--accent)">Taller mecánico · Coyoacán, CDMX</p>
+      <h1>Tu coche, <em>bien hecho</em> a la primera.</h1>
+      <p>Mecánica general, frenos, suspensión y pre-verificación. Te enseñamos la pieza que cambiamos y te damos el presupuesto antes de tocar nada.</p>
+      <div class="cta">
+        <a class="btn primary" href="#contacto">Agendar por WhatsApp</a>
+        <a class="btn ghost" href="#servicios">Ver precios</a>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>Horario</dt><dd>Lun–Vie 9:00–18:00</dd></div>
+      <div><dt>Sábado</dt><dd>9:00–14:00</dd></div>
+      <div><dt>Garantía</dt><dd>3 meses / 5,000 km</dd></div>
+      <div><dt>Diagnóstico</dt><dd>Gratis con reparación</dd></div>
+    </dl>
+  </div>
+</div>
+<div class="hazard"></div>
+
+<section id="servicios">
+  <div class="wrap">
+    <p class="eyebrow">Orden de servicio</p>
+    <h2>Servicios y precios</h2>
+    <div class="order" role="table" aria-label="Servicios">
+      <div class="order-head" role="row"><span role="columnheader">Servicio</span><span role="columnheader">Cada</span><span role="columnheader" style="text-align:right">Desde</span></div>
+      <div class="row" role="row"><div role="cell"><h3>Afinación mayor</h3><p>Bujías, filtros de aire, gasolina y aceite, limpieza de cuerpo de aceleración.</p></div><span class="km" role="cell">20,000 km</span><span class="price" role="cell">$1,850</span></div>
+      <div class="row" role="row"><div role="cell"><h3>Cambio de aceite</h3><p>Aceite sintético o semisintético y filtro. Revisión de niveles incluida.</p></div><span class="km" role="cell">10,000 km</span><span class="price" role="cell">$750</span></div>
+      <div class="row" role="row"><div role="cell"><h3>Frenos</h3><p>Balatas delanteras, rectificado de discos y purga de líquido.</p></div><span class="km" role="cell">30,000 km</span><span class="price" role="cell">$1,200</span></div>
+      <div class="row" role="row"><div role="cell"><h3>Suspensión</h3><p>Amortiguadores, horquillas y bujes. Revisión sin costo.</p></div><span class="km" role="cell">60,000 km</span><span class="price" role="cell">$2,400</span></div>
+      <div class="row" role="row"><div role="cell"><h3>Pre-verificación</h3><p>Revisamos emisiones antes de ir al verificentro para que no te rechacen.</p></div><span class="km" role="cell">Cada semestre</span><span class="price" role="cell">$350</span></div>
+    </div>
+    <p class="note">Precios en pesos mexicanos para autos compactos, refacciones incluidas salvo frenos y suspensión. IVA incluido.</p>
+  </div>
+</section>
+
+<section id="verificacion" style="padding-top:0">
+  <div class="wrap split">
+    <div class="verif">
+      <p class="eyebrow">Calendario CDMX</p>
+      <h2 style="font-size:36px;margin-bottom:8px">¿Te toca verificar?</h2>
+      <p style="color:var(--muted);margin:0">Elige el color de tu engomado.</p>
+      <div class="chips" id="chips"></div>
+      <p class="result" id="result" aria-live="polite"></p>
+    </div>
+    <div id="como">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2 style="font-size:36px">Sin sorpresas en la cuenta</h2>
+      <ol class="steps">
+        <li><div><b>Nos escribes por WhatsApp</b><span>Cuéntanos el modelo y qué le pasa. Te damos cita el mismo día.</span></div></li>
+        <li><div><b>Diagnóstico y presupuesto</b><span>Te mandamos fotos y el precio antes de empezar.</span></div></li>
+        <li><div><b>Reparación con garantía</b><span>Te entregamos las piezas viejas y 3 meses de garantía.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="contact">
+  <div class="wrap">
+    <p class="eyebrow" style="color:var(--accent)">Contacto</p>
+    <h2>Pásate al taller</h2>
+    <dl class="grid">
+      <div><dt>WhatsApp</dt><dd class="mono" id="tel">55 0000 0000</dd><button class="copy" id="copyTel" type="button">Copiar número</button></div>
+      <div><dt>Dirección</dt><dd>Calle de ejemplo 123, Coyoacán, CDMX</dd></div>
+      <div><dt>Pagos</dt><dd>Efectivo, tarjeta y transferencia</dd></div>
+    </dl>
+  </div>
+</section>
+<footer><div class="wrap"><span>© Taller Hermanos Ríos (ejemplo)</span><span>Web por Pixel Taller</span></div></footer>
+
+<script>
+// Verificación CDMX: cada engomado verifica en los mismos dos meses de cada semestre.
+const engomados = [
+  { name: "Amarillo", color: "#f2d21b", months: [1, 2] },
+  { name: "Rosa", color: "#ef7fb0", months: [2, 3] },
+  { name: "Rojo", color: "#d93a2b", months: [3, 4] },
+  { name: "Verde", color: "#2f9e57", months: [4, 5] },
+  { name: "Azul", color: "#2d6fd6", months: [5, 6] },
+];
+const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const chips = document.getElementById("chips");
+const result = document.getElementById("result");
+
+function show(e) {
+  const now = new Date().getMonth() + 1;
+  const first = e.months.map(m => meses[m - 1]);
+  const second = e.months.map(m => meses[m + 5]);
+  const semMonth = now > 6 ? now - 6 : now;
+  const due = e.months.includes(semMonth);
+  result.innerHTML = due
+    ? `<strong>Te toca ahora.</strong><br>Verificas en ${now > 6 ? second.join(" y ") : first.join(" y ")}. Agenda tu pre-verificación.`
+    : `<strong>Todavía no.</strong><br>Verificas en ${first.join(" y ")} y en ${second.join(" y ")}.`;
+  [...chips.children].forEach(c => c.setAttribute("aria-pressed", c.dataset.name === e.name));
+}
+engomados.forEach(e => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.dataset.name = e.name; b.setAttribute("aria-pressed", "false");
+  b.innerHTML = `<span class="dot" style="background:${e.color}"></span>${e.name}`;
+  b.addEventListener("click", () => show(e));
+  chips.appendChild(b);
+});
+show(engomados[3]);
+
+document.getElementById("copyTel").addEventListener("click", async (ev) => {
+  const t = document.getElementById("tel").textContent;
+  try { await navigator.clipboard.writeText(t); ev.target.textContent = "Copiado"; }
+  catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("tel")); getSelection().removeAllRanges(); getSelection().addRange(r); }
+});
+</script>
+
+</body>
+</html>

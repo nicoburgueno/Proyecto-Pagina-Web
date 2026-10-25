@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Casa Nopal Condesa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Work+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap">
+<style>
+/* Layout: look único de noche (verde nopal + cempasúchil + rosa mexicano). Hero tipográfico + menú del día en vivo, banda de temporada, carta por pestañas, reservación, reseñas, ubicación */
+:root {
+  --bg: #12201a;
+  --surface: #1a2c24;
+  --surface-2: #213a2f;
+  --ink: #f4ecdd;
+  --muted: #b7ae9c;
+  --line: #2d4639;
+  --marigold: #f0a830;
+  --marigold-ink: #241500;
+  --rosa: #e3457c;
+  --green-ok: #6fd39a;
+  --display: "Young Serif", Georgia, "Times New Roman", serif;
+  --body: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "DM Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1140px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1.05; text-wrap: balance; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--marigold); outline-offset: 2px; border-radius: 4px; }
+
+.demo { background: var(--marigold); color: var(--marigold-ink); font-size: 13px; font-weight: 600; text-align: center; }
+.demo .wrap { padding-block: 6px; }
+
+/* Papel picado */
+.picado { height: 34px; background:
+  radial-gradient(circle at 50% 30%, var(--bg) 3px, transparent 3.5px) 0 0 / 28px 34px,
+  linear-gradient(135deg, transparent 75%, var(--bg) 75%) 0 22px / 14px 12px,
+  linear-gradient(225deg, transparent 75%, var(--bg) 75%) 0 22px / 14px 12px,
+  linear-gradient(90deg, var(--rosa) 0 25%, var(--marigold) 25% 50%, #6fb7d3 50% 75%, var(--green-ok) 75%) 0 0 / 336px 100%; }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(18,32,26,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { font-family: var(--display); font-size: 26px; text-decoration: none; }
+.brand em { font-style: normal; color: var(--marigold); }
+.top nav { display: flex; gap: 26px; font-size: 15px; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 0; cursor: pointer; transition: transform .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn.gold { background: var(--marigold); color: var(--marigold-ink); }
+.btn.line { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.top .btn { padding: 9px 16px; font-size: 14px; }
+
+/* Hero */
+.hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; padding-block: 56px 72px; align-items: center; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.status i { width: 9px; height: 9px; border-radius: 50%; background: var(--green-ok); box-shadow: 0 0 0 4px rgba(111,211,154,.2); }
+.status.closed i { background: var(--rosa); box-shadow: 0 0 0 4px rgba(227,69,124,.2); }
+.hero h1 { font-size: clamp(48px, 7.4vw, 96px); margin-top: 18px; letter-spacing: -.01em; }
+.hero h1 span { color: var(--marigold); }
+.hero h1 i { font-style: normal; color: var(--rosa); }
+.hero p.lead { font-size: 19px; color: var(--muted); max-width: 44ch; margin: 22px 0 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.delivery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; align-items: center; font-size: 14px; color: var(--muted); }
+.delivery a { padding: 6px 12px; border-radius: 999px; background: var(--surface); text-decoration: none; color: var(--ink); font-size: 13px; }
+
+.today { background: var(--ink); color: #1c1a14; border-radius: 22px; padding: 28px; position: relative; transform: rotate(1.2deg); box-shadow: 0 30px 60px -24px rgba(0,0,0,.6); }
+.today .tag { position: absolute; top: -14px; left: 24px; background: var(--rosa); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; }
+.today h2 { font-size: 30px; }
+.today .when { font-size: 14px; color: #5d5747; margin: 4px 0 18px; }
+.today ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.today li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; border-bottom: 1px dashed #cfc5b0; padding-bottom: 10px; }
+.today li span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8a7e62; padding-top: 3px; }
+.today li b { font-weight: 500; }
+.today .price { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; }
+.today .price b { font-family: var(--display); font-size: 40px; font-weight: 400; }
+.today .price small { color: #5d5747; font-size: 13px; }
+
+/* Temporada */
+.season { background: linear-gradient(100deg, #f0a830, #e86a2c); color: #2a1200; }
+.season .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 22px; flex-wrap: wrap; }
+.season h3 { font-size: clamp(22px, 3vw, 30px); }
+.season p { margin: 2px 0 0; font-size: 15px; }
+.season .btn { background: #2a1200; color: #f0a830; }
+
+section { padding-block: 84px; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--marigold); margin: 0 0 12px; }
+h2 { font-size: clamp(34px, 5vw, 56px); }
+.head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 30px; }
+.head p { color: var(--muted); max-width: 40ch; margin: 0; }
+
+/* Carta */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+.tabs button { padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.menu { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; }
+.dish { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.dish h3 { font-size: 21px; }
+.dish .p { font-family: var(--mono); font-size: 16px; color: var(--marigold); align-self: baseline; }
+.dish p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 15px; }
+.badges { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+.badge.hot { color: #ffb4a3; }
+.badge.veg { color: var(--green-ok); }
+.badge.star { color: var(--marigold); }
+
+/* Reservar */
+.reserve { background: var(--surface); border-radius: 26px; padding: 40px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 44px; }
+.reserve .side p { color: var(--muted); }
+.perks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 10px; }
+.perks li { display: flex; gap: 10px; }
+.perks li::before { content: "✓"; color: var(--green-ok); font-weight: 700; }
+.lbl { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
+.lbl:first-child { margin-top: 0; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; }
+.stepper button { width: 44px; height: 44px; border: 0; background: transparent; color: var(--ink); font-size: 20px; cursor: pointer; border-radius: 999px; }
+.stepper output { min-width: 110px; text-align: center; font-weight: 600; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { padding: 9px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.chip small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.chip[aria-pressed="true"] { background: var(--marigold); border-color: var(--marigold); color: var(--marigold-ink); }
+.chip[aria-pressed="true"] small { color: var(--marigold-ink); }
+.chip.time { font-family: var(--mono); font-size: 14px; }
+select { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+.resume { margin-top: 20px; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); font-size: 15px; }
+.reserve .btn { width: 100%; margin-top: 12px; }
+
+/* Reseñas */
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.review { border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.review .stars { color: var(--marigold); letter-spacing: 2px; }
+.review p { margin: 0; font-family: var(--display); font-size: 19px; line-height: 1.35; }
+.review footer { font-size: 13px; color: var(--muted); }
+
+/* Visita */
+.visit { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.map { border-radius: 22px; min-height: 300px; position: relative; overflow: hidden; background:
+  linear-gradient(90deg, transparent 48%, #2b4639 48% 52%, transparent 52%) 0 0 / 120px 120px,
+  linear-gradient(0deg, transparent 48%, #2b4639 48% 52%, transparent 52%) 0 0 / 120px 120px,
+  radial-gradient(circle at 70% 30%, #23412f 0 60px, transparent 61px),
+  var(--surface); }
+.map .pin { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; }
+.map .pin b { background: var(--marigold); color: var(--marigold-ink); padding: 6px 12px; border-radius: 999px; font-size: 13px; white-space: nowrap; }
+.map .pin i { width: 14px; height: 14px; background: var(--marigold); transform: rotate(45deg); margin-top: -8px; }
+.map a { position: absolute; bottom: 14px; left: 14px; }
+.hours { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.hours td { padding: 11px 0; border-bottom: 1px solid var(--line); }
+.hours td:last-child { text-align: right; font-family: var(--mono); font-size: 14px; }
+.hours tr.now td { color: var(--marigold); }
+.info { display: grid; gap: 6px; margin-top: 22px; color: var(--muted); }
+.info b { color: var(--ink); font-weight: 600; }
+
+footer.site { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+footer.site .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-block: 22px; }
+
+@media (max-width: 900px) {
+  .hero .wrap, .reserve, .visit { grid-template-columns: 1fr; }
+  .menu { grid-template-columns: 1fr; }
+  .reviews { grid-template-columns: 1fr 1fr; }
+  .top nav { display: none; }
+  .today { transform: none; }
+}
+@media (max-width: 600px) {
+  .reviews { grid-template-columns: 1fr; }
+  .reserve { padding: 24px; }
+  section { padding-block: 60px; }
+  .today li { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="demo"><div class="wrap">Sitio de demostración hecho por Pixel Taller · Restaurante, precios y reseñas son de ejemplo</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">Casa <em>Nopal</em></a>
+    <nav aria-label="Secciones">
+      <a href="#carta">Carta</a>
+      <a href="#reservar">Reservar</a>
+      <a href="#visita">Cómo llegar</a>
+    </nav>
+    <a class="btn gold" href="#reservar">Reservar mesa</a>
+  </div>
+</header>
+<div class="picado" aria-hidden="true"></div>
+
+<div class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <span class="status" id="status"><i></i><span id="statusText">Condesa, CDMX</span></span>
+      <h1>Cocina de <span>mercado</span>, hecha <i>en casa</i>.</h1>
+      <p class="lead">Guisos de la abuela, tortillas hechas a mano y mezcal de Oaxaca. Comida corrida de lunes a viernes y brunch el fin de semana.</p>
+      <div class="cta">
+        <a class="btn gold" href="#reservar">Reservar mesa</a>
+        <a class="btn line" href="#carta">Ver la carta</a>
+      </div>
+      <div class="delivery">Pide a domicilio:
+        <a href="https://www.rappi.com.mx" target="_blank" rel="noopener">Rappi</a>
+        <a href="https://www.ubereats.com/mx" target="_blank" rel="noopener">Uber Eats</a>
+        <a href="https://web.didi-food.com/mx" target="_blank" rel="noopener">DiDi Food</a>
+      </div>
+    </div>
+
+    <aside class="today" aria-labelledby="todayTitle">
+      <span class="tag">Comida corrida</span>
+      <h2 id="todayTitle">El menú de hoy</h2>
+      <p class="when" id="todayWhen"></p>
+      <ol id="todayList"></ol>
+      <div class="price"><b>$165</b><small>13:00 a 17:00 · incluye agua y postre</small></div>
+    </aside>
+  </div>
+</div>
+
+<div class="season">
+  <div class="wrap">
+    <div><h3>Temporada de Día de Muertos</h3><p>Pan de muerto de la casa + chocolate de Oaxaca, $85. Del 25 de octubre al 2 de noviembre.</p></div>
+    <a class="btn" href="#reservar">Apartar mesa</a>
+  </div>
+</div>
+
+<section id="carta">
+  <div class="wrap">
+    <div class="head"><div><p class="eyebrow">Carta</p><h2>Lo que sale de la cocina</h2></div><p>Tortillas de maíz criollo nixtamalizado aquí mismo. Todos los precios incluyen IVA.</p></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="menu" id="menu" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="reservar" style="padding-top:0">
+  <div class="wrap">
+    <form class="reserve" id="resForm">
+      <div class="side">
+        <p class="eyebrow">Reservaciones</p>
+        <h2>Aparta tu mesa</h2>
+        <p>Te confirmamos por WhatsApp en menos de 10 minutos.</p>
+        <ul class="perks">
+          <li>Sin costo y sin tarjeta</li>
+          <li>Terraza con calefactores</li>
+          <li>Pet friendly en la terraza</li>
+          <li>Pastel de cortesía en cumpleaños</li>
+        </ul>
+      </div>
+      <div>
+        <span class="lbl">Personas</span>
+        <div class="stepper"><button type="button" id="minus" aria-label="Menos personas">−</button><output id="people">2 personas</output><button type="button" id="plus" aria-label="Más personas">+</button></div>
+        <span class="lbl">Día</span>
+        <div class="chips" id="resDays"></div>
+        <span class="lbl">Hora</span>
+        <div class="chips" id="resTimes"></div>
+        <label class="lbl" for="occasion">Ocasión</label>
+        <select id="occasion"><option>Ninguna en especial</option><option>Cumpleaños</option><option>Aniversario</option><option>Comida de trabajo</option><option>Cena de Día de Muertos</option></select>
+        <div class="resume" id="resume" aria-live="polite"></div>
+        <a class="btn gold" id="resWa" href="#" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><div><p class="eyebrow">Reseñas de ejemplo</p><h2>4.8 en Google</h2></div><p>Más de 1,200 opiniones de comensales (cifra de ejemplo).</p></div>
+    <div class="reviews">
+      <figure class="review" style="margin:0"><span class="stars">★★★★★</span><p>"El mole sabe a domingo en casa de mi abuela. La comida corrida es la mejor de la Condesa."</p><footer>Comensal de ejemplo</footer></figure>
+      <figure class="review" style="margin:0"><span class="stars">★★★★★</span><p>"Reservé por WhatsApp en dos minutos y nos tenían la mesa en la terraza con pastel."</p><footer>Comensal de ejemplo</footer></figure>
+      <figure class="review" style="margin:0"><span class="stars">★★★★★</span><p>"Los chilaquiles del brunch y el café de olla valen la fila del sábado."</p><footer>Comensal de ejemplo</footer></figure>
+    </div>
+  </div>
+</section>
+
+<section id="visita" style="padding-top:0">
+  <div class="wrap visit">
+    <div class="map"><div class="pin"><b>Casa Nopal</b><i></i></div><a class="btn gold" href="https://maps.google.com" target="_blank" rel="noopener">Abrir en Google Maps</a></div>
+    <div>
+      <p class="eyebrow">Visítanos</p>
+      <h2>Condesa, a una cuadra del parque</h2>
+      <table class="hours" id="hours"></table>
+      <div class="info">
+        <span><b>Dirección:</b> Calle de ejemplo 210, Condesa, CDMX</span>
+        <span><b>WhatsApp:</b> <span style="font-family:var(--mono)">55 0000 0000</span></span>
+        <span><b>Pagos:</b> efectivo, tarjetas y transferencia · Valet parking en la noche</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site"><div class="wrap"><span>© Casa Nopal (ejemplo)</span><span>Diseño web por Pixel Taller</span></div></footer>
+
+<script>
+const WA = "525500000000";
+const diasL = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+const diasC = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+// [abre, cierra] en horas; domingo cierra temprano
+const horario = { 0: [9, 18], 1: [8, 23], 2: [8, 23], 3: [8, 23], 4: [8, 23], 5: [8, 24], 6: [9, 24] };
+
+// Comida corrida por día de la semana
+const corrida = {
+  1: ["Sopa de fideo", "Arroz rojo", "Tinga de pollo con frijoles", "Agua de jamaica", "Gelatina de mosaico"],
+  2: ["Crema de elote", "Spaghetti verde", "Bistec a la mexicana", "Agua de horchata", "Arroz con leche"],
+  3: ["Sopa de tortilla", "Arroz blanco", "Chiles rellenos de queso", "Agua de pepino con limón", "Flan napolitano"],
+  4: ["Caldo tlalpeño", "Arroz rojo", "Mole poblano con pollo", "Agua de tamarindo", "Pay de queso"],
+  5: ["Sopa de habas", "Arroz con plátano", "Pescado a la veracruzana", "Agua de piña", "Capirotada"],
+};
+const brunch = ["Jugo verde o naranja", "Fruta con granola", "Chilaquiles rojos o verdes", "Café de olla ilimitado", "Pan de muerto de temporada"];
+const now = new Date(), d = now.getDay();
+const weekend = d === 0 || d === 6;
+let listDay = d;
+if (!weekend && !corrida[d]) listDay = 1;
+const items = weekend ? brunch : corrida[listDay];
+const labels = weekend ? ["Para empezar", "Fruta", "Plato fuerte", "Café", "Dulce"] : ["Entrada", "Segundo", "Plato fuerte", "Bebida", "Postre"];
+document.getElementById("todayTitle").textContent = weekend ? "Brunch de hoy" : "El menú de hoy";
+document.querySelector(".today .tag").textContent = weekend ? "Brunch de fin de semana" : "Comida corrida";
+document.querySelector(".today .price").innerHTML = weekend ? "<b>$245</b><small>9:00 a 14:00 · café de olla ilimitado</small>" : "<b>$165</b><small>13:00 a 17:00 · incluye agua y postre</small>";
+document.getElementById("todayWhen").textContent = `${diasL[d][0].toUpperCase() + diasL[d].slice(1)} ${now.getDate()} de ${meses[now.getMonth()]}`;
+document.getElementById("todayList").innerHTML = items.map((x, i) => `<li><span>${labels[i]}</span><b>${x}</b></li>`).join("");
+
+// Abierto ahora
+(function () {
+  const [a, c] = horario[d], h = now.getHours() + now.getMinutes() / 60;
+  const open = h >= a && h < c;
+  const el = document.getElementById("status");
+  el.classList.toggle("closed", !open);
+  document.getElementById("statusText").textContent = open
+    ? `Abierto ahora · cierra a las ${c === 24 ? "00" : c}:00`
+    : `Cerrado ahora · abre a las ${horario[(h >= c ? (d + 1) % 7 : d)][0]}:00`;
+})();
+
+// Carta
+const carta = {
+  "Desayunos": [
+    ["Chilaquiles de la casa", 145, "Rojos o verdes, con crema de rancho, queso fresco y huevo estrellado.", ["star", "hot"]],
+    ["Enfrijoladas", 125, "Rellenas de huevo o pollo, frijol negro con epazote y chorizo de Toluca.", []],
+    ["Molletes con pico de gallo", 98, "Bolillo del día, frijoles refritos y queso gratinado.", ["veg"]],
+    ["Huevos divorciados", 120, "Salsa roja y verde, frijoles, totopos y tortillas a mano.", ["hot"]],
+  ],
+  "Platos fuertes": [
+    ["Mole poblano", 235, "Pierna y muslo de pollo, ajonjolí, arroz rojo. Receta de 28 ingredientes.", ["star"]],
+    ["Enchiladas suizas", 189, "Salsa verde cremosa, pollo deshebrado y queso gratinado.", []],
+    ["Chile en nogada", 290, "Solo de agosto a octubre. Relleno de picadillo, nogada y granada.", ["star"]],
+    ["Tacos de cochinita", 175, "Tres tacos, cebolla morada encurtida y habanero aparte.", ["hot"]],
+    ["Tlacoyos de haba", 140, "Con nopales, queso fresco y salsa de molcajete.", ["veg"]],
+  ],
+  "Para compartir": [
+    ["Guacamole con chapulines", 165, "Aguacate de Michoacán, chapulines de Oaxaca y totopos.", ["star"]],
+    ["Queso fundido con chorizo", 155, "Queso Oaxaca y Chihuahua, tortillas de harina.", []],
+    ["Esquites de la casa", 85, "Con mayonesa de chipotle, queso cotija y chile piquín.", ["veg", "hot"]],
+  ],
+  "Bebidas": [
+    ["Mezcal espadín", 110, "Copa de 45 ml con naranja y sal de gusano.", []],
+    ["Agua fresca del día", 45, "Jamaica, horchata o la de temporada. Jarra $120.", ["veg"]],
+    ["Café de olla", 48, "Con piloncillo y canela. Ilimitado en el brunch.", ["veg"]],
+    ["Michelada", 95, "Cerveza clara u oscura, clamato y chamoy opcional.", ["hot"]],
+  ],
+};
+const badgeTxt = { star: "Favorito", hot: "Picante", veg: "Vegetariano" };
+const tabsEl = document.getElementById("tabs"), menuEl = document.getElementById("menu");
+function showCat(cat) {
+  [...tabsEl.children].forEach(t => t.setAttribute("aria-selected", t.textContent === cat));
+  menuEl.innerHTML = carta[cat].map(([n, p, desc, b]) => `
+    <article class="dish"><h3>${n}</h3><span class="p">$${p}</span><p>${desc}</p>
+    ${b.length ? `<div class="badges">${b.map(x => `<span class="badge ${x}">${badgeTxt[x]}</span>`).join("")}</div>` : ""}</article>`).join("");
+}
+Object.keys(carta).forEach(cat => {
+  const b = document.createElement("button");
+  b.type = "button"; b.role = "tab"; b.textContent = cat;
+  b.addEventListener("click", () => showCat(cat));
+  tabsEl.appendChild(b);
+});
+showCat(weekend ? "Desayunos" : "Platos fuertes");
+
+// Reservación
+const res = { n: 2, day: null, time: null };
+const daysEl = document.getElementById("resDays"), timesEl = document.getElementById("resTimes");
+for (let i = 0; i < 7; i++) {
+  const x = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip";
+  b.innerHTML = `<small>${i === 0 ? "Hoy" : i === 1 ? "Mañana" : diasC[x.getDay()]}</small>${x.getDate()}`;
+  b.addEventListener("click", () => { res.day = x; [...daysEl.children].forEach(c => c.setAttribute("aria-pressed", c === b)); renderTimes(); });
+  daysEl.appendChild(b);
+}
+function renderTimes() {
+  timesEl.innerHTML = "";
+  const [a, c] = horario[res.day.getDay()];
+  res.time = null;
+  for (let h = Math.max(13, a); h <= c - 2; h++) {
+    for (const m of [0, 30]) {
+      const t = new Date(res.day.getFullYear(), res.day.getMonth(), res.day.getDate(), h, m);
+      if (t < new Date(Date.now() + 36e5)) continue;
+      const label = `${h}:${m ? "30" : "00"}`;
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip time"; b.textContent = label;
+      b.addEventListener("click", () => { res.time = label; [...timesEl.children].forEach(c => c.setAttribute("aria-pressed", c === b)); update(); });
+      timesEl.appendChild(b);
+      if (timesEl.children.length >= 10) break;
+    }
+    if (timesEl.children.length >= 10) break;
+  }
+  if (timesEl.children.length) timesEl.children[Math.min(4, timesEl.children.length - 1)].click();
+  else update();
+}
+function update() {
+  const occ = document.getElementById("occasion").value;
+  const fecha = `${diasL[res.day.getDay()]} ${res.day.getDate()} de ${meses[res.day.getMonth()]}`;
+  document.getElementById("people").textContent = `${res.n} ${res.n === 1 ? "persona" : "personas"}`;
+  document.getElementById("resume").innerHTML = res.time
+    ? `Mesa para <b>${res.n}</b>, ${fecha} a las <b>${res.time}</b>${occ !== "Ninguna en especial" ? ` · ${occ}` : ""}`
+    : `Ya no hay horarios hoy. Elige otro día.`;
+  const msg = `Hola, quiero reservar una mesa para ${res.n} el ${fecha} a las ${res.time || "--"}.${occ !== "Ninguna en especial" ? ` Ocasión: ${occ}.` : ""}`;
+  document.getElementById("resWa").href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+}
+document.getElementById("minus").addEventListener("click", () => { res.n = Math.max(1, res.n - 1); update(); });
+document.getElementById("plus").addEventListener("click", () => { res.n = Math.min(20, res.n + 1); update(); });
+document.getElementById("occasion").addEventListener("change", update);
+document.getElementById("resForm").addEventListener("submit", e => e.preventDefault());
+daysEl.children[0].click();
+if (!res.time) daysEl.children[1].click();
+
+// Horario
+document.getElementById("hours").innerHTML = [1,2,3,4,5,6,0].map(x => {
+  const [a, c] = horario[x];
+  return `<tr class="${x === d ? "now" : ""}"><td>${diasL[x][0].toUpperCase() + diasL[x].slice(1)}${x === d ? " (hoy)" : ""}</td><td>${a}:00 – ${c === 24 ? "00" : c}:00</td></tr>`;
+}).join("");
+</script>
+
+</body>
+</html>

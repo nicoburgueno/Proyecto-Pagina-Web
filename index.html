@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel Taller</title>
+<meta name="description" content="Páginas web para clínicas dentales, restaurantes y negocios locales en CDMX, con citas y reservaciones por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: portafolio de un estudio pequeño. Hero corto, tres demos como "fichas de trabajo", qué incluye, proceso, contacto */
+:root {
+  --bg: #f4f4f0;
+  --surface: #ffffff;
+  --ink: #18181b;
+  --muted: #62626b;
+  --line: #dcdcd4;
+  --accent: #3b5bdb;
+  --accent-ink: #ffffff;
+  --pixel: #f2b705;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111114; --surface: #1a1a1f; --ink: #ececef; --muted: #a1a1aa; --line: #2b2b33; --accent: #7c95ff; --accent-ink: #0b0d1a; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+header .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 22px; text-decoration: none; }
+.logo i { display: grid; grid-template-columns: repeat(2, 8px); gap: 2px; }
+.logo i b { width: 8px; height: 8px; background: var(--ink); }
+.logo i b:nth-child(2) { background: var(--pixel); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+
+.hero .wrap { padding-block: 56px 72px; }
+.hero h1 { font-size: clamp(44px, 7.5vw, 92px); font-weight: 800; max-width: 14ch; }
+.hero h1 span { background: linear-gradient(transparent 62%, var(--pixel) 62% 92%, transparent 92%); }
+.hero p { font-size: 20px; color: var(--muted); max-width: 48ch; margin: 22px 0 30px; }
+.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+section { padding-block: 72px; border-top: 1px solid var(--line); }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 800; margin-bottom: 32px; }
+
+.demos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.demo { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.demo:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -28px rgba(0,0,0,.45); }
+.shot { aspect-ratio: 4 / 3; max-width: 100%; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.shot .bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.25); }
+.shot .t { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1; margin-top: auto; }
+.shot .k { display: flex; gap: 6px; }
+.shot .k span { height: 26px; flex: 1; border-radius: 6px; background: rgba(255,255,255,.18); }
+.shot .k span:first-child { background: rgba(255,255,255,.9); }
+.demo .body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.demo h3 { font-size: 22px; }
+.demo p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
+.demo .go { font-weight: 600; color: var(--accent); font-size: 15px; }
+
+.incl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; }
+.incl div { border-top: 2px solid var(--ink); padding-top: 14px; }
+.incl h3 { font-size: 20px; margin-bottom: 6px; }
+.incl p { margin: 0; color: var(--muted); }
+
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: s; }
+.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+.steps li::before { content: "Paso " counter(s); display: block; font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; }
+.steps b { display: block; font-size: 18px; margin-bottom: 4px; }
+.steps span { color: var(--muted); }
+
+.contact { background: var(--ink); color: var(--bg); border-top: 0; }
+.contact .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.contact h2 { margin: 0; color: var(--bg); }
+.contact p { margin: 8px 0 0; opacity: .75; }
+.contact .num { font-family: var(--mono); font-size: 22px; }
+footer { color: var(--muted); font-size: 13px; }
+footer .wrap { padding-block: 24px; }
+
+@media (max-width: 860px) {
+  .demos, .incl, .steps { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><i><b></b><b></b><b></b><b></b></i>Pixel Taller</a>
+    <a class="btn ghost" href="#contacto">Contacto</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Páginas web que <span>llenan tu agenda</span>.</h1>
+    <p>Diseño y desarrollo web para clínicas dentales, restaurantes y negocios locales en la Ciudad de México. Tus clientes te encuentran en Google y agendan por WhatsApp en segundos.</p>
+    <div class="cta">
+      <a class="btn" href="#demos">Ver ejemplos</a>
+      <a class="btn ghost" href="#contacto">Pedir cotización</a>
+    </div>
+  </div>
+</div>
+
+<section id="demos">
+  <div class="wrap">
+    <p class="eyebrow">Ejemplos en vivo</p>
+    <h2>Pruébalas desde tu celular</h2>
+    <div class="demos">
+      <a class="demo" href="demos/dental/">
+        <div class="shot" style="background:linear-gradient(140deg,#127c6e,#0f2a2c);color:#eaf4f1"><span class="bar" style="width:40%"></span><span class="t">Sonríe sin miedo.</span><div class="k"><span></span><span></span><span></span></div></div>
+        <div class="body"><h3>Clínica dental</h3><p>Agenda con horarios libres, precios por tratamiento, promoción con cuenta regresiva y guía de blanqueamiento.</p><span class="go">Abrir demo →</span></div>
+      </a>
+      <a class="demo" href="demos/restaurante/">
+        <div class="shot" style="background:linear-gradient(140deg,#1a2c24,#12201a);color:#f4ecdd"><span class="bar" style="width:55%;background:#f0a830"></span><span class="t">Cocina de mercado.</span><div class="k"><span></span><span></span><span></span></div></div>
+        <div class="body"><h3>Restaurante</h3><p>Menú del día que cambia solo, carta por pestañas, reservaciones por WhatsApp y "Abierto ahora" en vivo.</p><span class="go">Abrir demo →</span></div>
+      </a>
+      <a class="demo" href="demos/taller/">
+        <div class="shot" style="background:linear-gradient(140deg,#263340,#16191d);color:#f3f4f1"><span class="bar" style="width:35%;background:#f2b705"></span><span class="t">Bien hecho a la primera.</span><div class="k"><span></span><span></span><span></span></div></div>
+        <div class="body"><h3>Taller mecánico</h3><p>Lista de servicios con precios e intervalos en km, y calendario de verificación por color de engomado.</p><span class="go">Abrir demo →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Qué incluye</p>
+    <h2>Todo lo que tu negocio necesita en línea</h2>
+    <div class="incl">
+      <div><h3>Diseño para celular</h3><p>Casi todos tus clientes te buscan desde el teléfono. Tu página se ve perfecta ahí primero.</p></div>
+      <div><h3>Citas por WhatsApp</h3><p>El cliente elige día y hora, y el mensaje te llega ya armado. Sin apps ni comisiones.</p></div>
+      <div><h3>Google Maps</h3><p>Arreglamos tu ficha de Google con fotos, horarios y servicios para que aparezcas primero.</p></div>
+      <div><h3>Tu propio dominio</h3><p>Una dirección como tunegocio.com.mx que da confianza y es tuya.</p></div>
+      <div><h3>Cambios cuando quieras</h3><p>¿Subiste precios o tienes promoción nueva? La actualizamos por ti cada mes.</p></div>
+      <div><h3>Lista en una semana</h3><p>De la primera plática a tu página publicada en 5 a 7 días.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Cómo trabajamos</p>
+    <h2>Sencillo y sin sorpresas</h2>
+    <ol class="steps">
+      <li><b>Platicamos 15 minutos</b><span>Me cuentas de tu negocio y me mandas fotos, precios y horarios.</span></li>
+      <li><b>Ves tu página en 3 días</b><span>Te mando el link para que la revises en tu celular y pidas cambios.</span></li>
+      <li><b>La publicamos</b><span>Con tu dominio y tu ficha de Google lista. Pagas 50% al inicio y 50% al final.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contacto" class="contact">
+  <div class="wrap">
+    <div><h2>¿Hacemos la tuya?</h2><p>Escríbeme por WhatsApp y te mando una propuesta hoy mismo.</p></div>
+    <span class="num">55 0000 0000</span>
+  </div>
+</section>
+<footer><div class="wrap">© 2026 Pixel Taller · Ciudad de México</div></footer>
+</body>
+</html>
