@@ -52,8 +52,10 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-e
 
 /* Navegación flotante */
 .nav { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 16px; border-radius: 999px; background: rgba(18, 18, 18, .72); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); width: max-content; max-width: calc(100% - 24px); }
-.nav .logo { display: block; text-decoration: none; margin-right: 10px; }
-.nav .logo svg { display: block; height: 22px; width: auto; }
+.nav .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: 10px; }
+.nav .logo svg { display: block; height: 20px; width: auto; }
+.nav .name { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: -.02em; }
+.nav .name span { color: var(--muted); font-weight: 400; }
 .nav a.link { font-size: 14px; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; transition: color .2s, background .2s; }
 .nav a.link:hover { color: var(--ink); background: var(--surface-2); }
 .nav .cta { font-size: 14px; font-weight: 500; text-decoration: none; padding: 9px 16px; border-radius: 999px; background: var(--ink); color: var(--bg); transition: transform .2s var(--ease); }
@@ -197,7 +199,8 @@ footer svg { height: 20px; width: auto; display: block; }
 
 <nav class="nav" aria-label="Principal">
   <a class="logo" href="#inicio" aria-label="nicoburgueno, inicio">
-    <svg viewBox="6 32 276 56" role="img" aria-label="nicoburgueno"><text x="14" y="72" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" font-size="34" fill="#f1efe9" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect class="cursor" x="76" y="47" width="14" height="30" fill="#e5242b"/><rect x="106" y="38" width="1" height="44" fill="#3a3a3a"/><text x="122" y="62" font-family="'Geist Mono', ui-monospace, monospace" font-size="22" fill="#f1efe9" letter-spacing="-0.4"><tspan fill="#8a8880" font-weight="400">nico</tspan><tspan font-weight="600">burgueno</tspan></text><text x="123" y="80" font-family="'Geist Mono', ui-monospace, monospace" font-size="9" fill="#6b6a64" letter-spacing="1.6">desarrollo web · cdmx</text></svg>
+    <svg viewBox="10 42 84 38" aria-hidden="true"><text x="14" y="72" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" font-size="34" fill="#f1efe9" letter-spacing="-1"><tspan fill="#6b6a64">&gt;</tspan>nb</text><rect class="cursor" x="76" y="47" width="14" height="30" fill="#e5242b"/></svg>
+    <span class="name"><span>nico</span>burgueno</span>
   </a>
   <a class="link" href="#trabajos">Trabajos</a>
   <a class="link" href="#servicios">Servicios</a>
